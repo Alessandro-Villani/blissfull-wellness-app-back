@@ -1,0 +1,147 @@
+package org.java.blissful.pojo.auth;
+
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
+
+import org.java.blissful.pojo.Massage;
+import org.java.blissful.pojo.Review;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+
+@Entity
+public class Therapist {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	
+	private LocalDate hiringDate;
+	
+	@Column(columnDefinition = "text")
+	private String description;
+	
+	@OneToOne(cascade = CascadeType.DETACH)
+	@JsonManagedReference
+	private User user;
+	
+	@ManyToMany(cascade = CascadeType.DETACH)
+	@JsonManagedReference
+	private List<Massage> massages;
+	
+	@OneToMany(mappedBy = "therapist", cascade = CascadeType.REMOVE)
+	@JsonManagedReference
+	private List<Review> reviews;
+	
+	public Therapist() {}
+	
+	public Therapist(User user, LocalDate hiringDate, String description, Massage... massage) {
+		
+		setUser(user);
+		setHiringDate(hiringDate);
+		setDescription(description);
+		setMassage(massage);
+		
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public LocalDate getHiringDate() {
+		return hiringDate;
+	}
+
+	public void setHiringDate(LocalDate hiringDate) {
+		this.hiringDate = hiringDate;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public List<Massage> getMassages() {
+		return massages;
+	}
+
+	@JsonSetter
+	public void setMassages(List<Massage> massages) {
+		this.massages = massages;
+	}
+	
+	public void setMassage(Massage[] massages) {
+		setMassages(Arrays.asList(massages));
+	}
+	
+	public void addMassage(Massage massage) {
+		
+		getMassages().add(massage);
+		
+	}
+	
+	public void removeMassage(Massage massage) {
+		
+		getMassages().remove(massage);
+		
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+	
+	public int getReviewAverage() {
+		
+		if(!getReviews().isEmpty()) {
+			
+			int average = 0;
+			
+			for(Review review : getReviews()) {
+				
+				average += review.getGrade();
+				
+			}
+			
+			average = average / getReviews().size();
+			
+			return average;
+			
+		}
+		
+		return 0;
+		
+		
+	}
+	
+}
