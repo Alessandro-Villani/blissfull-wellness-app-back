@@ -4,12 +4,15 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import org.java.blissful.pojo.Review;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import jakarta.persistence.CascadeType;
@@ -22,6 +25,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -54,6 +58,10 @@ public class User implements UserDetails{
 	@OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
 	@JsonBackReference
 	private Therapist therapist;
+	
+	@OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)
+	@JsonBackReference
+	private List<Review> sentReviews;
 	
 	public User() {}
 	
@@ -90,6 +98,7 @@ public class User implements UserDetails{
 		this.username = username;
 	}
 
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}

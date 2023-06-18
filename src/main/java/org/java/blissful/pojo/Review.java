@@ -1,8 +1,10 @@
 package org.java.blissful.pojo;
 
 import org.java.blissful.pojo.auth.Therapist;
+import org.java.blissful.pojo.auth.User;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -35,15 +37,20 @@ public class Review {
 	
 	@ManyToOne(cascade = CascadeType.DETACH)
 	@JsonBackReference
-	Therapist therapist;
+	private Therapist therapist;
+	
+	@ManyToOne(cascade = CascadeType.DETACH)
+	@JsonManagedReference
+	private User author;
 	
 	public Review() {}
 	
-	public Review(int grade, String review, Therapist therapist) {
+	public Review(int grade, String review, Therapist therapist, User author) {
 		
 		setGrade(grade);
 		setReview(review);
 		setTherapist(therapist);
+		setAuthor(author);
 		
 	}
 
@@ -79,6 +86,14 @@ public class Review {
 		this.therapist = therapist;
 	}
 	
+	public User getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(User author) {
+		this.author = author;
+	}
+
 	@Override
 	public String toString() {
 		
