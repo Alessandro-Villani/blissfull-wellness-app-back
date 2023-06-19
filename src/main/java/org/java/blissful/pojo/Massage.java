@@ -2,7 +2,7 @@ package org.java.blissful.pojo;
 
 import java.util.List;
 
-import org.java.blissful.pojo.auth.Therapist;
+import org.java.blissful.auth.pojo.Therapist;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 

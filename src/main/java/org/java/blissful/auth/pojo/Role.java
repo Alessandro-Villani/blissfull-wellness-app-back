@@ -1,4 +1,4 @@
-package org.java.blissful.pojo.auth;
+package org.java.blissful.auth.pojo;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

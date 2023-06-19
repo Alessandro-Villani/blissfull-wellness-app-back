@@ -3,8 +3,8 @@ package org.java.blissful.auth.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.java.blissful.auth.pojo.Role;
 import org.java.blissful.auth.repo.RoleRepo;
-import org.java.blissful.pojo.auth.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +23,12 @@ public class RoleService {
 	public Optional<Role> findById(long id){
 		
 		return roleRepo.findById(id);
+		
+	}
+	
+	public Optional<Role> findByName(String name){
+		
+		return roleRepo.findByName(name);
 		
 	}
 	

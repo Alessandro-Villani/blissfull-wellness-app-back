@@ -1,4 +1,4 @@
-package org.java.blissful.pojo.auth;
+package org.java.blissful.auth.pojo;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -48,6 +48,14 @@ public class User implements UserDetails{
 	@Column(columnDefinition = "text")
 	private String profilePic;
 	
+	@NotNull
+	@NotBlank
+	private String firstName;
+	
+	@NotNull
+	@NotBlank
+	private String lastName;
+	
 	private String address;
 	
 	private LocalDate dateOfBirth;
@@ -65,18 +73,20 @@ public class User implements UserDetails{
 	
 	public User() {}
 	
-	public User(String username, String password, LocalDate dateOfBirth, String profilePic) {
+	public User(String username, String password, String firstName, String lastName, LocalDate dateOfBirth, String profilePic) {
 		
 		setUsername(username);
 		setPassword(password);
+		setFirstName(firstName);
+		setLastName(lastName);
 		setDateOfBirth(dateOfBirth);
 		setProfilePic(profilePic);
 		
 	}
 	
-	public User(String username, String password, LocalDate dateOfBirth, String profilePic, Role...roles) {
+	public User(String username, String password, String firstName, String lastName, LocalDate dateOfBirth, String profilePic, Role...roles) {
 		
-		this(username, password, dateOfBirth, profilePic);
+		this(username, password, firstName, lastName, dateOfBirth, profilePic);
 		
 		setRoles(roles);
 		
@@ -105,6 +115,24 @@ public class User implements UserDetails{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getProfilePic() {

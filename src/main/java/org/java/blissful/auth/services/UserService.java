@@ -3,8 +3,8 @@ package org.java.blissful.auth.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.java.blissful.auth.pojo.User;
 import org.java.blissful.auth.repo.UserRepo;
-import org.java.blissful.pojo.auth.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,6 +27,12 @@ public class UserService implements UserDetailsService{
 	public Optional<User> findById(long id){
 		
 		return userRepo.findById(id);
+		
+	}
+	
+	public List<User> findByUsernameContaining(String username){
+		
+		return userRepo.findByUsernameContaining(username);
 		
 	}
 	

@@ -3,8 +3,8 @@ package org.java.blissful.auth.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.java.blissful.auth.pojo.Therapist;
 import org.java.blissful.auth.repo.TherapistRepo;
-import org.java.blissful.pojo.auth.Therapist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

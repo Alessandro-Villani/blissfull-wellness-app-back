@@ -1,11 +1,11 @@
 package org.java.blissful.api.controller;
 
 import org.java.blissful.api.dto.ReviewDto;
+import org.java.blissful.auth.pojo.Therapist;
+import org.java.blissful.auth.pojo.User;
 import org.java.blissful.auth.services.TherapistService;
 import org.java.blissful.auth.services.UserService;
 import org.java.blissful.pojo.Review;
-import org.java.blissful.pojo.auth.Therapist;
-import org.java.blissful.pojo.auth.User;
 import org.java.blissful.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

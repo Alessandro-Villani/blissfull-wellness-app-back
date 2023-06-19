@@ -1,4 +1,4 @@
-package org.java.blissful.pojo.auth;
+package org.java.blissful.auth.pojo;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -28,6 +28,8 @@ public class Therapist {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
+	private String therapistName;
+	
 	private LocalDate hiringDate;
 	
 	@Column(columnDefinition = "text")
@@ -47,11 +49,18 @@ public class Therapist {
 	
 	public Therapist() {}
 	
-	public Therapist(User user, LocalDate hiringDate, String description, Massage... massage) {
+	public Therapist(User user, String therapistName, LocalDate hiringDate, String description) {
 		
 		setUser(user);
+		setTherapistName(therapistName);
 		setHiringDate(hiringDate);
 		setDescription(description);
+		
+	}
+	
+	public Therapist(User user, String therapistName, LocalDate hiringDate, String description, Massage... massage) {
+		
+		this(user, therapistName, hiringDate, description);
 		setMassage(massage);
 		
 	}
@@ -62,6 +71,14 @@ public class Therapist {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getTherapistName() {
+		return therapistName;
+	}
+
+	public void setTherapistName(String therapistName) {
+		this.therapistName = therapistName;
 	}
 
 	public LocalDate getHiringDate() {
@@ -123,7 +140,7 @@ public class Therapist {
 	
 	public int getReviewAverage() {
 		
-		if(!getReviews().isEmpty()) {
+		if(getReviews() != null && !getReviews().isEmpty()) {
 			
 			int average = 0;
 			
