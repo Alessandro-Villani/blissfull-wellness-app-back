@@ -9,8 +9,10 @@ import org.java.blissful.auth.services.RoleService;
 import org.java.blissful.auth.services.TherapistService;
 import org.java.blissful.auth.services.UserService;
 import org.java.blissful.pojo.Massage;
+import org.java.blissful.pojo.Product;
 import org.java.blissful.pojo.Review;
 import org.java.blissful.services.MassageService;
+import org.java.blissful.services.ProductService;
 import org.java.blissful.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -39,6 +41,9 @@ public class BlissfulBackendApplication implements CommandLineRunner{
 	
 	@Autowired
 	private ReviewService reviewService;
+	
+	@Autowired
+	private ProductService productService;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -46,6 +51,7 @@ public class BlissfulBackendApplication implements CommandLineRunner{
 		String lorem = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque dolor repudiandae officiis delectus. Minima magni facilis commodi harum, dicta quasi neque similique ipsum, error quam, culpa ratione temporibus quidem sunt.";
 		String lorem2 = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa enim iste earum neque nihil cupiditate eaque quam, sint porro inventore eveniet architecto? Consectetur quaerat odio eveniet cumque? Consequuntur, quos accusamus!";
 		String genericUserImg = "https://t4.ftcdn.net/jpg/00/65/77/27/360_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg";
+		String genericProductImg = "https://it.thelibraryoffragrance.eu/wp-content/uploads/2020/06/cotton-candy-body-oil.jpg";
 		
 		Role admin = new Role("admin");
 		Role therapist = new Role("therapist");
@@ -96,6 +102,20 @@ public class BlissfulBackendApplication implements CommandLineRunner{
 		reviewService.save(r2);
 		reviewService.save(r3);
 		reviewService.save(r4);
+		
+		Product p1 = new Product("Product 1", lorem, genericProductImg, 200, 10);
+		Product p2 = new Product("Product 2", lorem2, genericProductImg, 300, 6);
+		Product p3 = new Product("Product 3", lorem2, genericProductImg, 450, 3);
+		Product p4 = new Product("Product 4", lorem, genericProductImg, 150, 0);
+		Product p5 = new Product("Product 5", lorem2, genericProductImg, 600, 8);
+		Product p6 = new Product("Product 6", lorem, genericProductImg, 400, 20);
+		
+		productService.save(p1);
+		productService.save(p2);
+		productService.save(p3);
+		productService.save(p4);
+		productService.save(p5);
+		productService.save(p6);
 		
 		
 		
