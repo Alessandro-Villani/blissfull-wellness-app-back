@@ -1,10 +1,20 @@
 package org.java.blissful.api.dto;
 
+import java.time.LocalDate;
+
 public class UserDto {
 	
 	private String username;
 	
 	private String password;
+	
+	private String firstName;
+	
+	private String lastName;
+	
+	private LocalDate dateOfBirth;
+	
+	private String profilePic;
 	
 	public UserDto() {}
 	
@@ -12,6 +22,16 @@ public class UserDto {
 		
 		setUsername(username);
 		setPassword(Password);
+		
+	}
+	
+	public UserDto(String username, String password, String firstName, String lastName, String dateOfBirth, String profilePic) {
+		
+		this(username, password);
+		setFirstName(firstName);
+		setLastName(lastName);
+		setDateOfBirth(dateOfBirth);
+		setProfilePic(profilePic);
 		
 	}
 
@@ -30,6 +50,40 @@ public class UserDto {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public LocalDate getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(String dateOfBirth) {
+		this.dateOfBirth = LocalDate.parse(dateOfBirth);
+	}
+
+	public String getProfilePic() {
+		return profilePic;
+	}
+
+	public void setProfilePic(String profilePic) {
+		this.profilePic = profilePic;
+	}
+	
+	
 	
 	
 

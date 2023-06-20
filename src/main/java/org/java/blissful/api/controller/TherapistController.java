@@ -2,6 +2,7 @@ package org.java.blissful.api.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.java.blissful.api.dto.TherapistDto;
 import org.java.blissful.auth.pojo.Role;
@@ -14,8 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,6 +64,53 @@ public class TherapistController {
 		
 		return new ResponseEntity<>(therapist, HttpStatus.OK);
 		
+	}
+	
+	@PutMapping("therapists/update/{id}")
+	public ResponseEntity<Therapist> updateTherapist(@PathVariable long id, @RequestBody TherapistDto therapistDto){
+		
+		Optional<Therapist> optTherapist = therapistService.findById(id);
+		
+		if(optTherapist.isEmpty()) {
+			
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}
+		
+		Therapist therapist = optTherapist.get();
+		
+		therapist.setTherapistName(therapistDto.getTherapistName());
+		therapist.setDescription(therapistDto.getDescription());
+		
+		therapistService.save(therapist);
+		
+		return new ResponseEntity<>(therapist, HttpStatus.OK);
+	}
+	
+	@DeleteMapping("therapists/delete/{id}")
+	public ResponseEntity<Therapist> deleteTherapist(@PathVariable long id){
+		
+		Optional<Therapist> optTherapist = therapistService.findById(id);
+		
+		if(optTherapist.isEmpty()) {
+			
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}
+		
+		Therapist therapist = optTherapist.get();
+		
+		Role therapistRole = roleService.findByName("therapist").get();
+		
+		User user = userService.findById(therapist.getUser().getId()).get();
+		
+		user.deleteRole(therapistRole);
+		
+		userService.save(user);
+		
+		therapistService.delete(therapist);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 }
