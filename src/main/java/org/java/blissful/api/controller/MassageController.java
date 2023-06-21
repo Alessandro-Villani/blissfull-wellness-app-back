@@ -60,7 +60,7 @@ public class MassageController {
 		System.out.println(massageDto.getDescription());
 		System.out.println(massageDto.getPricePerHour());
 		
-		Massage massage = new Massage(massageDto.getName(), massageDto.getDescription(), massageDto.getPricePerHour());
+		Massage massage = new Massage(massageDto.getName(), massageDto.getDescription(), massageDto.getPricePerHour(), massageDto.getColor());
 		
 		System.out.println(massage);
 		
@@ -88,6 +88,7 @@ public class MassageController {
 		massage.setName(massageDto.getName());
 		massage.setDescription(massageDto.getDescription());
 		massage.setPricePerHour(massageDto.getPricePerHour());
+		massage.setColor(massageDto.getColor());
 		
 		massageService.save(massage);
 		

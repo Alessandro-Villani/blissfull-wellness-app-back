@@ -58,10 +58,17 @@ public class Therapist {
 		
 	}
 	
-	public Therapist(User user, String therapistName, LocalDate hiringDate, String description, Massage... massage) {
+	public Therapist(User user, String therapistName, LocalDate hiringDate, String description, Massage... massages) {
 		
 		this(user, therapistName, hiringDate, description);
-		setMassage(massage);
+		setMassage(massages);
+		
+	}
+	
+	public Therapist(User user, String therapistName, LocalDate hiringDate, String description, List<Massage> massages) {
+		
+		this(user, therapistName, hiringDate, description);
+		setMassages(massages);
 		
 	}
 

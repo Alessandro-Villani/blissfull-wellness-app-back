@@ -1,6 +1,7 @@
 package org.java.blissful.api.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,8 @@ import org.java.blissful.auth.pojo.User;
 import org.java.blissful.auth.services.RoleService;
 import org.java.blissful.auth.services.TherapistService;
 import org.java.blissful.auth.services.UserService;
+import org.java.blissful.pojo.Massage;
+import org.java.blissful.services.MassageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +41,9 @@ public class TherapistController {
 	@Autowired
 	private RoleService roleService;
 	
+	@Autowired
+	private MassageService massageService;
+	
 	@GetMapping("/therapists")
 	public ResponseEntity<List<Therapist>> getAllTherapists(){
 		
@@ -58,7 +64,17 @@ public class TherapistController {
 		
 		userService.save(user);
 		
-		Therapist therapist = new Therapist(user, therapistDto.getTherapistName(), LocalDate.now(), therapistDto.getDescription());
+		List<Massage> massages = new ArrayList<>();
+		
+		for(long massageId : therapistDto.getMassages()) {
+			
+			Massage massage = massageService.findById(massageId).get();
+			
+			massages.add(massage);
+			
+		}
+		
+		Therapist therapist = new Therapist(user, therapistDto.getTherapistName(), LocalDate.now(), therapistDto.getDescription(), massages);
 		
 		therapistService.save(therapist);
 		
@@ -68,6 +84,18 @@ public class TherapistController {
 	
 	@PutMapping("therapists/update/{id}")
 	public ResponseEntity<Therapist> updateTherapist(@PathVariable long id, @RequestBody TherapistDto therapistDto){
+		
+		System.out.println(therapistDto.getMassages());
+		
+		List<Massage> massages = new ArrayList<>();
+		
+		for(long massageId : therapistDto.getMassages()) {
+			
+			Massage massage = massageService.findById(massageId).get();
+			
+			massages.add(massage);
+			
+		}
 		
 		Optional<Therapist> optTherapist = therapistService.findById(id);
 		
@@ -81,6 +109,7 @@ public class TherapistController {
 		
 		therapist.setTherapistName(therapistDto.getTherapistName());
 		therapist.setDescription(therapistDto.getDescription());
+		therapist.setMassages(massages);
 		
 		therapistService.save(therapist);
 		

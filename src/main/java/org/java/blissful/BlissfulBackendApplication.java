@@ -77,10 +77,10 @@ public class BlissfulBackendApplication implements CommandLineRunner{
 		userService.save(user5);
 		userService.save(user6);
 		
-		Massage m1 = new Massage("Swedish", "beginner friendly", 450);
-		Massage m2 = new Massage("Shiatsu", "super good", 450);
-		Massage m3 = new Massage("Pinoy hilot", "para sa pinoy", 500);
-		Massage m4 = new Massage("Thai", "eww foreign massage", 600);
+		Massage m1 = new Massage("Swedish", "beginner friendly", 450, "#FFF490");
+		Massage m2 = new Massage("Shiatsu", "super good", 450, "#A172A0");
+		Massage m3 = new Massage("Pinoy hilot", "para sa pinoy", 500, "#5E7EB9");
+		Massage m4 = new Massage("Thai", "eww foreign massage", 600, "#FFD480");
 		
 		massageService.save(m1);
 		massageService.save(m2);

@@ -1,5 +1,9 @@
 package org.java.blissful.api.dto;
 
+import java.util.List;
+
+
+
 public class TherapistDto {
 	
 	
@@ -9,6 +13,8 @@ public class TherapistDto {
 
 	private long userId;
 	
+	private long[] massages;
+	
 	public TherapistDto() {}
 
 	public TherapistDto(String therapistName, String description, long userId) {
@@ -16,6 +22,13 @@ public class TherapistDto {
 		setTherapistName(therapistName);
 		setDescription(description);
 		setUserId(userId);
+		
+	}
+	
+	public TherapistDto(String therapistName, String description, long userId, long[] massages) {
+		
+		this(therapistName, description, userId);
+		setMassages(massages);
 		
 	}
 
@@ -42,6 +55,14 @@ public class TherapistDto {
 	public void setUserId(long userId) {
 		this.userId = userId;
 	}
+
+	public long[] getMassages() {
+		return massages;
+	}
+
+	public void setMassages(long[] massages) {
+		this.massages = massages;
+	}	
 	
 	
 }

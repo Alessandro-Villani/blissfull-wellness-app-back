@@ -8,11 +8,14 @@ public class MassageDto {
 	
 	private double pricePerHour;
 	
+	private String color;
+	
 	public MassageDto() {}
-	public MassageDto(String name, String description, double pricePerHour) {
+	public MassageDto(String name, String description, double pricePerHour, String color) {
 		setName(name);
 		setDescription(description);
-		setPrice(pricePerHour);
+		setPricePerHour(pricePerHour);
+		setColor(color);
 	}
 	
 	public String getName() {
@@ -30,8 +33,16 @@ public class MassageDto {
 	public double getPricePerHour() {
 		return pricePerHour;
 	}
-	public void setPrice(double pricePerHour) {
+	public void setPricePerHour(double pricePerHour) {
 		this.pricePerHour = pricePerHour;
 	}
+	public String getColor() {
+		return color;
+	}
+	public void setColor(String color) {
+		this.color = color;
+	}
+	
+	
 	
 }
