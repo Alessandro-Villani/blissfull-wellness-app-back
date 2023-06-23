@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.java.blissful.api.dto.MassageDto;
+import org.java.blissful.auth.pojo.Therapist;
 import org.java.blissful.pojo.Massage;
 import org.java.blissful.services.MassageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,6 +111,13 @@ public class MassageController {
 		}
 		
 		Massage massage = optMassage.get();
+		
+		for(Therapist therapist : massage.getTherapists()) {
+			
+			therapist.getMassages().remove(massage);
+			
+		}
+		
 		massageService.delete(massage);
 		
 		return new ResponseEntity<>(HttpStatus.OK);

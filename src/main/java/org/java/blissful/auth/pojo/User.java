@@ -7,13 +7,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.java.blissful.pojo.PurchaseOrder;
 import org.java.blissful.pojo.Review;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -31,6 +35,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User implements UserDetails{
 
 	@Id
@@ -70,6 +75,9 @@ public class User implements UserDetails{
 	@OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)
 	@JsonBackReference
 	private List<Review> sentReviews;
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+	private List<PurchaseOrder> orders;
 	
 	public User() {}
 	
@@ -187,6 +195,22 @@ public class User implements UserDetails{
 
 	public void setTherapist(Therapist therapist) {
 		this.therapist = therapist;
+	}
+
+	public List<Review> getSentReviews() {
+		return sentReviews;
+	}
+
+	public void setSentReviews(List<Review> sentReviews) {
+		this.sentReviews = sentReviews;
+	}
+
+	public List<PurchaseOrder> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<PurchaseOrder> orders) {
+		this.orders = orders;
 	}
 
 	@Override
