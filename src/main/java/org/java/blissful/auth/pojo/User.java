@@ -35,7 +35,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User implements UserDetails{
 
 	@Id
@@ -77,6 +76,7 @@ public class User implements UserDetails{
 	private List<Review> sentReviews;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 	private List<PurchaseOrder> orders;
 	
 	public User() {}

@@ -64,6 +64,8 @@ public class TherapistController {
 		
 		userService.save(user);
 		
+		System.out.println(user);
+		
 		List<Massage> massages = new ArrayList<>();
 		
 		for(long massageId : therapistDto.getMassages()) {

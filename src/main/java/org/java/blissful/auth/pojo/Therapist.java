@@ -7,9 +7,11 @@ import java.util.List;
 import org.java.blissful.pojo.Massage;
 import org.java.blissful.pojo.Review;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -36,7 +38,8 @@ public class Therapist {
 	private String description;
 	
 	@OneToOne(cascade = CascadeType.DETACH)
-	@JsonManagedReference
+	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = false)
 	private User user;
 	
 	@ManyToMany(cascade = CascadeType.DETACH)

@@ -6,6 +6,7 @@ import org.java.blissful.auth.pojo.User;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.CascadeType;
@@ -24,9 +25,11 @@ public class PurchaseOrder {
 	private long id;
 	
 	@ManyToOne(cascade = CascadeType.DETACH)
+	@JsonIgnoreProperties("product")
 	private Product product;
 	
 	@ManyToOne(cascade = CascadeType.DETACH)
+	@JsonIgnoreProperties("user")
 	private User user;
 	
 	private boolean delivery;
