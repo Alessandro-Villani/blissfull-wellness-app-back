@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +43,15 @@ public class UserController {
 		        .collect(Collectors.toList());
 		
 		return users;
+		
+	}
+	
+	@GetMapping("/users/{id}")
+	public ResponseEntity<User> getUserById(@PathVariable long id){
+		
+		User user = userService.findById(id).get();
+		
+		return new ResponseEntity<>(user, HttpStatus.OK);
 		
 	}
 	
@@ -80,5 +90,6 @@ public class UserController {
 		
 		
 	}
+	
 	
 }

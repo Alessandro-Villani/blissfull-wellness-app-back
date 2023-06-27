@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import org.java.blissful.auth.pojo.User;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -25,11 +24,11 @@ public class PurchaseOrder {
 	private long id;
 	
 	@ManyToOne(cascade = CascadeType.DETACH)
-	@JsonIgnoreProperties("product")
+	@JsonIgnoreProperties("orders")
 	private Product product;
 	
 	@ManyToOne(cascade = CascadeType.DETACH)
-	@JsonIgnoreProperties("user")
+	@JsonIgnoreProperties("orders")
 	private User user;
 	
 	private boolean delivery;
@@ -42,9 +41,13 @@ public class PurchaseOrder {
 	
 	private boolean accepted;
 	
+	private boolean rejected;
+	
 	private boolean seen;
 	
 	private boolean delivered;
+	
+	private boolean canceled;
 	
 	public PurchaseOrder() {}
 
@@ -55,8 +58,10 @@ public class PurchaseOrder {
 		setDelivery(delivery);
 		setQuantity(quantity);
 		setAccepted(false);
+		setRejected(false);
 		setSeen(false);
 		setDelivered(false);
+		setCanceled(false);
 		setAddress(address);
 		
 	}
@@ -68,8 +73,10 @@ public class PurchaseOrder {
 		setDelivery(delivery);
 		setQuantity(quantity);
 		setAccepted(false);
+		setRejected(false);
 		setSeen(false);
 		setDelivered(false);
+		setCanceled(false);
 		setDateOfPickUp(dateOfPickUp);
 		
 	}
@@ -139,6 +146,14 @@ public class PurchaseOrder {
 		this.accepted = accepted;
 	}
 
+	public boolean isRejected() {
+		return rejected;
+	}
+
+	public void setRejected(boolean rejected) {
+		this.rejected = rejected;
+	}
+
 	public boolean isSeen() {
 		return seen;
 	}
@@ -154,6 +169,13 @@ public class PurchaseOrder {
 	public void setDelivered(boolean delivered) {
 		this.delivered = delivered;
 	}
-	
+
+	public boolean isCanceled() {
+		return canceled;
+	}
+
+	public void setCanceled(boolean canceled) {
+		this.canceled = canceled;
+	}	
 
 }

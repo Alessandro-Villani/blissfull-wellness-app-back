@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -88,6 +89,69 @@ public class PurchaseOrderController {
 		
 	}
 	
+	@PatchMapping("/purchaseorders/{id}/accept")
+	public ResponseEntity<PurchaseOrder> acceptOrder(@PathVariable long id){
+		
+		PurchaseOrder purchaseOrder = purchaseOrderService.findById(id).get();
+		
+		purchaseOrder.setAccepted(true);
+		
+		purchaseOrderService.save(purchaseOrder);
+		
+		return new ResponseEntity<>(purchaseOrder, HttpStatus.OK);
+		
+	}
+	
+	@PatchMapping("/purchaseorders/{id}/reject")
+	public ResponseEntity<PurchaseOrder> rejectOrder(@PathVariable long id){
+		
+		PurchaseOrder purchaseOrder = purchaseOrderService.findById(id).get();
+		
+		Product product = productService.findById(purchaseOrder.getProduct().getId()).get();
+		
+		product.setStockQuantity(product.getStockQuantity() + purchaseOrder.getQuantity());
+		
+		productService.save(product);
+		
+		purchaseOrder.setRejected(true);
+		
+		purchaseOrderService.save(purchaseOrder);
+		
+		return new ResponseEntity<>(purchaseOrder, HttpStatus.OK);
+		
+	}
+	
+	@PatchMapping("/purchaseorders/{id}/delivered")
+	public ResponseEntity<PurchaseOrder> deliveredOrder(@PathVariable long id){
+		
+		PurchaseOrder purchaseOrder = purchaseOrderService.findById(id).get();
+		
+		purchaseOrder.setDelivered(true);
+		
+		purchaseOrderService.save(purchaseOrder);
+		
+		return new ResponseEntity<>(purchaseOrder, HttpStatus.OK);
+		
+	}
+	
+	@PatchMapping("/purchaseorders/{id}/cancel")
+	public ResponseEntity<PurchaseOrder> cancelOrder(@PathVariable long id){
+		
+		PurchaseOrder purchaseOrder = purchaseOrderService.findById(id).get();
+		
+		Product product = productService.findById(purchaseOrder.getProduct().getId()).get();
+		
+		product.setStockQuantity(product.getStockQuantity() + purchaseOrder.getQuantity());
+		
+		productService.save(product);
+		
+		purchaseOrder.setCanceled(true);
+		
+		purchaseOrderService.save(purchaseOrder);
+		
+		return new ResponseEntity<>(purchaseOrder, HttpStatus.OK);
+		
+	}
 	
 
 }
