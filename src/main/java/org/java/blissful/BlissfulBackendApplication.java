@@ -68,6 +68,9 @@ public class BlissfulBackendApplication implements CommandLineRunner{
 		User user4 = new User("User1", psw, "User", "1", LocalDate.parse("1999-01-04"), genericUserImg);
 		User user5 = new User("User2", psw, "User", "2", LocalDate.parse("1999-01-04"), genericUserImg);
 		User user6 = new User("User3", psw, "User", "3", LocalDate.parse("1999-01-04"), genericUserImg);
+		User user7 = new User("Arnie", psw, "Arnie", "Sedano", LocalDate.parse("1992-01-01"),"https://scontent.fnap7-1.fna.fbcdn.net/v/t39.30808-6/356802061_629325369395069_2294756979978837884_n.jpg?_nc_cat=105&cb=99be929b-59f725be&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=_HsuitVEL68AX_Ncdy_&_nc_ht=scontent.fnap7-1.fna&oh=00_AfDD1IIOGMzLRccmlc56LjRdgPxbkv25uel5m-2ygECy-Q&oe=64A3369B", therapist);
+		User user8 = new User("Ella", psw, "Ella", "Doria", LocalDate.parse("1992-01-01"),"https://scontent.fnap7-1.fna.fbcdn.net/v/t39.30808-6/286545583_137882278845299_7738255251753237410_n.jpg?_nc_cat=110&cb=99be929b-59f725be&ccb=1-7&_nc_sid=19026a&_nc_ohc=XyVl_Gxbpc0AX9FwxGd&_nc_ht=scontent.fnap7-1.fna&oh=00_AfDy0-YNK8Z-sOyf1H2UgQKh46HpIHEKVo8EjZ1BmKQfQQ&oe=64A3E3D6", therapist);
+		User user9 = new User("Ella", psw, "Coleen", "Morales", LocalDate.parse("1992-01-01"),"https://scontent.fnap7-1.fna.fbcdn.net/v/t39.30808-6/327911724_1191129305107489_2311515158982872581_n.jpg?_nc_cat=104&cb=99be929b-59f725be&ccb=1-7&_nc_sid=19026a&_nc_ohc=Zpl97jG1FAcAX_EtsHZ&_nc_ht=scontent.fnap7-1.fna&oh=00_AfCFW7mdC-BOkJdlxGRWcT3ym3zJvjSYDK90XYE_UC12jQ&oe=64A44563", therapist);
 		
 		userService.save(userAdmin);
 		userService.save(user1);
@@ -76,6 +79,9 @@ public class BlissfulBackendApplication implements CommandLineRunner{
 		userService.save(user4);
 		userService.save(user5);
 		userService.save(user6);
+		userService.save(user7);
+		userService.save(user8);
+		userService.save(user9);
 		
 		Massage m1 = new Massage("Swedish", "beginner friendly", 450, "#FFF490");
 		Massage m2 = new Massage("Shiatsu", "super good", 450, "#A172A0");
@@ -89,9 +95,15 @@ public class BlissfulBackendApplication implements CommandLineRunner{
 		
 		Therapist t1 = new Therapist(user1, "Chris", LocalDate.now(), lorem, m1, m2, m3, m4);
 		Therapist t2 = new Therapist(user2, "Lodilyn", LocalDate.now(), lorem, m3, m4);
+		Therapist t3 = new Therapist(user7, "Arnie", LocalDate.now(), lorem, m1, m2, m3, m4);
+		Therapist t4 = new Therapist(user8, "Ella", LocalDate.now(), lorem, m1, m2, m4);
+		Therapist t5 = new Therapist(user9, "Coleen", LocalDate.now(), lorem, m2, m3, m4);
 		
 		therapistService.save(t1);
 		therapistService.save(t2);
+		therapistService.save(t3);
+		therapistService.save(t4);
+		therapistService.save(t5);
 		
 		Review r1 = new Review(5, lorem2, t1, user3);
 		Review r2 = new Review(3, lorem2, t1, user5);

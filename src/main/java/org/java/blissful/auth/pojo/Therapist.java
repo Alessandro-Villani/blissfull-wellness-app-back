@@ -4,11 +4,14 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+import org.java.blissful.pojo.Booking;
 import org.java.blissful.pojo.Massage;
 import org.java.blissful.pojo.Review;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -40,15 +43,21 @@ public class Therapist {
 	@OneToOne(cascade = CascadeType.DETACH)
 	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = false)
+	@JsonIgnoreProperties("bookings")
 	private User user;
 	
 	@ManyToMany(cascade = CascadeType.DETACH)
 	@JsonManagedReference
+	@JsonIgnoreProperties("bookings")
 	private List<Massage> massages;
 	
 	@OneToMany(mappedBy = "therapist", cascade = CascadeType.REMOVE)
 	@JsonManagedReference
 	private List<Review> reviews;
+	
+	@OneToMany(mappedBy = "therapist", cascade = CascadeType.REMOVE)
+	@JsonBackReference
+	private List<Booking> bookings;
 	
 	public Therapist() {}
 	
@@ -148,6 +157,14 @@ public class Therapist {
 		this.reviews = reviews;
 	}
 	
+	public List<Booking> getBookings() {
+		return bookings;
+	}
+
+	public void setBookings(List<Booking> bookings) {
+		this.bookings = bookings;
+	}
+
 	public int getReviewAverage() {
 		
 		if(getReviews() != null && !getReviews().isEmpty()) {

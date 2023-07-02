@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.java.blissful.pojo.Booking;
 import org.java.blissful.pojo.PurchaseOrder;
 import org.java.blissful.pojo.Review;
 import org.springframework.security.core.GrantedAuthority;
@@ -72,6 +73,10 @@ public class User implements UserDetails{
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 	private List<PurchaseOrder> orders;
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+	@JsonBackReference
+	private List<Booking> bookings;
 	
 	public User() {}
 	
@@ -205,6 +210,14 @@ public class User implements UserDetails{
 
 	public void setOrders(List<PurchaseOrder> orders) {
 		this.orders = orders;
+	}
+
+	public List<Booking> getBookings() {
+		return bookings;
+	}
+
+	public void setBookings(List<Booking> bookings) {
+		this.bookings = bookings;
 	}
 
 	@Override

@@ -15,6 +15,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -44,6 +45,10 @@ public class Massage {
 	private List<Therapist> therapists;
 	
 	private String color;
+	
+	@OneToMany(mappedBy = "massage", cascade = CascadeType.REMOVE)
+	@JsonBackReference
+	private List<Booking> bookings;
 	
 	public Massage() {}
 	
@@ -123,6 +128,14 @@ public class Massage {
 
 	public void setColor(String color) {
 		this.color = color;
+	}
+
+	public List<Booking> getBookings() {
+		return bookings;
+	}
+
+	public void setBookings(List<Booking> bookings) {
+		this.bookings = bookings;
 	}
 
 	@Override
