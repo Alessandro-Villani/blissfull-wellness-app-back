@@ -2,11 +2,15 @@ package org.java.blissful.api.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
+import org.apache.commons.io.FilenameUtils;
+import org.java.blissful.api.controller.UserController.FileUploadUtil;
 import org.java.blissful.api.dto.ProductDto;
 import org.java.blissful.pojo.Product;
 import org.java.blissful.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,6 +24,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -55,39 +62,76 @@ public class ProductController {
 		
 	}
 	
+	@Value("${upload.dir}")
+    private String uploadDir;
+	
 	@PostMapping("/products/store")
-	public ResponseEntity<Product> storeProduct(@RequestBody ProductDto productDto){
+	public ResponseEntity<Product> storeProduct(@RequestParam("file") MultipartFile file, @RequestParam("product") String productDtoJson){
+		try {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProductDto productDto = objectMapper.readValue(productDtoJson, ProductDto.class);
+
+        // Esegui l'upload dell'immagine del profilo
+        String originalFileName = file.getOriginalFilename();
+        String fileExtension = FilenameUtils.getExtension(originalFileName);
+        String fileName = UUID.randomUUID().toString() + "." + fileExtension;
+        String uploadPath = uploadDir + "/product_pics/" + fileName;
+        FileUploadUtil.saveFile(uploadPath, file);
+        String relativePath = "images/product_pics/" + fileName;
 		
-		Product product = new Product(productDto.getName(), productDto.getDescription(), productDto.getImageUrl(), productDto.getPrice(), productDto.getStockQuantity());
+		Product product = new Product(productDto.getName(), productDto.getDescription(), relativePath, productDto.getPrice(), productDto.getStockQuantity());
 		
 		productService.save(product);
 		
 		return new ResponseEntity<>(product, HttpStatus.OK);
+		} catch (Exception e) {
+	    	e.printStackTrace();
+	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
 		
 	}
 	
 	@PutMapping("/products/update/{id}")
-	public ResponseEntity<Product> updateProduct(@PathVariable long id, @RequestBody ProductDto productDto){
-		
-		Optional<Product> optProduct = productService.findById(id);
-		
-		if(optProduct.isEmpty()) {
+	public ResponseEntity<Product> updateProduct(@PathVariable long id, @RequestParam(value = "file", required = false) MultipartFile file, @RequestParam("product") String productDtoJson){
+		try {
+			Optional<Product> optProduct = productService.findById(id);
 			
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			if(optProduct.isEmpty()) {
+				
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+				
+			}
 			
-		}
-		
-		Product product = optProduct.get();
-		
-		product.setName(productDto.getName());
-		product.setDescription(productDto.getDescription());
-		product.setImageUrl(productDto.getImageUrl());
-		product.setPrice(productDto.getPrice());
-		product.setStockQuantity(productDto.getStockQuantity());
-		
-		productService.save(product);
-		
-		return new ResponseEntity<>(product, HttpStatus.OK);
+			Product product = optProduct.get();
+			
+			ObjectMapper objectMapper = new ObjectMapper();
+	        ProductDto productDto = objectMapper.readValue(productDtoJson, ProductDto.class);
+	        
+			
+			product.setName(productDto.getName());
+			product.setDescription(productDto.getDescription());
+			product.setPrice(productDto.getPrice());
+			product.setStockQuantity(productDto.getStockQuantity());
+			
+			if(file != null) {
+				String originalFileName = file.getOriginalFilename();
+		        String fileExtension = FilenameUtils.getExtension(originalFileName);
+		        String fileName = UUID.randomUUID().toString() + "." + fileExtension;
+		        String uploadPath = uploadDir + "/product_pics/" + fileName;
+		        FileUploadUtil.saveFile(uploadPath, file);
+		        String relativePath = "images/product_pics/" + fileName;
+		        
+		        product.setImageUrl(relativePath);
+			}
+			
+			productService.save(product);
+			
+			return new ResponseEntity<>(product, HttpStatus.OK);
+			
+		} catch (Exception e) {
+	    	e.printStackTrace();
+	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
 		
 	}
 	

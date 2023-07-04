@@ -64,7 +64,7 @@ public class BookingController {
 		
 		List<Booking> therapistBookings = bookingService.findByTherapistId(id);
 		
-		if(!date.isEmpty()) {
+		if(date != null && !date.isEmpty()) {
 			LocalDate searchDate = LocalDate.parse(date);
 			therapistBookings = therapistBookings.stream().filter(b -> b.getDate().isEqual(searchDate)).toList();
 		}

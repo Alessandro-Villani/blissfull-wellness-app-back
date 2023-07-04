@@ -8,8 +8,6 @@ public class ProductDto {
 	
 	private String description;
 	
-	private String imageUrl;
-	
 	private double price;
 	
 	private int stockQuantity;
@@ -24,11 +22,9 @@ public class ProductDto {
 		
 	}
 	
-	public ProductDto(String name, String description, String imageUrl, double price, int stockQuantity) {
+	public ProductDto(String name, String description,  double price, int stockQuantity) {
 		
 		setName(name);
-		setDescription(description);
-		setImageUrl(imageUrl);
 		setPrice(price);
 		setStockQuantity(stockQuantity);
 		
@@ -56,14 +52,6 @@ public class ProductDto {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getImageUrl() {
-		return imageUrl;
-	}
-
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
 	}
 
 	public double getPrice() {

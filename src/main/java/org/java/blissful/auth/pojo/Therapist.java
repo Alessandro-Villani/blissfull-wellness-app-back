@@ -41,9 +41,6 @@ public class Therapist {
 	private String description;
 	
 	@OneToOne(cascade = CascadeType.DETACH)
-	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = false)
-	@JsonIgnoreProperties("bookings")
 	private User user;
 	
 	@ManyToMany(cascade = CascadeType.DETACH)

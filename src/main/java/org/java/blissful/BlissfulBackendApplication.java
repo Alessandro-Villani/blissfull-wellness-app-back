@@ -50,8 +50,8 @@ public class BlissfulBackendApplication implements CommandLineRunner{
 		
 		String lorem = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque dolor repudiandae officiis delectus. Minima magni facilis commodi harum, dicta quasi neque similique ipsum, error quam, culpa ratione temporibus quidem sunt.";
 		String lorem2 = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa enim iste earum neque nihil cupiditate eaque quam, sint porro inventore eveniet architecto? Consectetur quaerat odio eveniet cumque? Consequuntur, quos accusamus!";
-		String genericUserImg = "https://t4.ftcdn.net/jpg/00/65/77/27/360_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg";
-		String genericProductImg = "https://it.thelibraryoffragrance.eu/wp-content/uploads/2020/06/cotton-candy-body-oil.jpg";
+		String profilePicBaseUrl = "images/profile_pics/";
+		String productPicBaseUrl = "images/product_pics/";
 		
 		Role admin = new Role("admin");
 		Role therapist = new Role("therapist");
@@ -61,16 +61,16 @@ public class BlissfulBackendApplication implements CommandLineRunner{
 		
 		final String psw = new BCryptPasswordEncoder().encode("psw");
 		
-		User userAdmin = new User("Marmar", psw, "Marilou", "Canete",LocalDate.parse("1986-04-04"), "https://scontent.fnap7-1.fna.fbcdn.net/v/t39.30808-6/311835572_1779883692410257_3613730619665435324_n.jpg?_nc_cat=110&cb=99be929b-59f725be&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=weh8c_hE6TAAX8gHs_l&_nc_ht=scontent.fnap7-1.fna&oh=00_AfBBSqI8Oab4CxQcwVZwgGwxFcBjxDdDrhDHQ6sE6h8LGg&oe=649C9FDE", admin);
-		User user1 = new User("Cris23", psw, "Creselda", "Canete", LocalDate.parse("1994-04-23"), "https://scontent.fnap7-1.fna.fbcdn.net/v/t39.30808-6/291803645_176188801522721_6877680634143498585_n.jpg?_nc_cat=107&cb=99be929b-59f725be&ccb=1-7&_nc_sid=174925&_nc_ohc=RZRps3qM8TEAX8MIOZv&_nc_ht=scontent.fnap7-1.fna&oh=00_AfBmTMd-um78PG8V2OrqWZPlvg2Nf63e0P3D4Z2yvDrCWQ&oe=649BFA79", therapist);
-		User user2 = new User("Lodilyn", psw, "Lodilyn", "Canete", LocalDate.parse("1992-01-01"), "https://scontent.fnap7-1.fna.fbcdn.net/v/t39.30808-6/326989613_692930959192320_4571851918320569180_n.jpg?_nc_cat=101&cb=99be929b-59f725be&ccb=1-7&_nc_sid=e3f864&_nc_ohc=vomoLgHjteoAX_MLANP&_nc_ht=scontent.fnap7-1.fna&oh=00_AfCy8cc7FWAVTxcMMJlM7I_xDzAFlVEY5h48__1td1dhLA&oe=649BCEEE" ,therapist);
-		User user3 = new User("Ale", psw, "Alessandro", "Villani", LocalDate.parse("1989-04-23"), "https://scontent.fnap7-1.fna.fbcdn.net/v/t1.18169-9/969225_639316846086375_920773750_n.jpg?_nc_cat=102&cb=99be929b-59f725be&ccb=1-7&_nc_sid=de6eea&_nc_ohc=hC9wRCM_eSwAX-8gsQh&_nc_ht=scontent.fnap7-1.fna&oh=00_AfBGZE6i_SkQ7gMoiNsmMpXzwaHQkZToPUeu-kuAeL1Zhg&oe=64BEA238");
-		User user4 = new User("User1", psw, "User", "1", LocalDate.parse("1999-01-04"), genericUserImg);
-		User user5 = new User("User2", psw, "User", "2", LocalDate.parse("1999-01-04"), genericUserImg);
-		User user6 = new User("User3", psw, "User", "3", LocalDate.parse("1999-01-04"), genericUserImg);
-		User user7 = new User("Arnie", psw, "Arnie", "Sedano", LocalDate.parse("1992-01-01"),"https://scontent.fnap7-1.fna.fbcdn.net/v/t39.30808-6/356802061_629325369395069_2294756979978837884_n.jpg?_nc_cat=105&cb=99be929b-59f725be&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=_HsuitVEL68AX_Ncdy_&_nc_ht=scontent.fnap7-1.fna&oh=00_AfDD1IIOGMzLRccmlc56LjRdgPxbkv25uel5m-2ygECy-Q&oe=64A3369B", therapist);
-		User user8 = new User("Ella", psw, "Ella", "Doria", LocalDate.parse("1992-01-01"),"https://scontent.fnap7-1.fna.fbcdn.net/v/t39.30808-6/286545583_137882278845299_7738255251753237410_n.jpg?_nc_cat=110&cb=99be929b-59f725be&ccb=1-7&_nc_sid=19026a&_nc_ohc=XyVl_Gxbpc0AX9FwxGd&_nc_ht=scontent.fnap7-1.fna&oh=00_AfDy0-YNK8Z-sOyf1H2UgQKh46HpIHEKVo8EjZ1BmKQfQQ&oe=64A3E3D6", therapist);
-		User user9 = new User("Ella", psw, "Coleen", "Morales", LocalDate.parse("1992-01-01"),"https://scontent.fnap7-1.fna.fbcdn.net/v/t39.30808-6/327911724_1191129305107489_2311515158982872581_n.jpg?_nc_cat=104&cb=99be929b-59f725be&ccb=1-7&_nc_sid=19026a&_nc_ohc=Zpl97jG1FAcAX_EtsHZ&_nc_ht=scontent.fnap7-1.fna&oh=00_AfCFW7mdC-BOkJdlxGRWcT3ym3zJvjSYDK90XYE_UC12jQ&oe=64A44563", therapist);
+		User userAdmin = new User("Marmar", psw, "Marilou", "Canete",LocalDate.parse("1986-04-04"), profilePicBaseUrl + "marmar.jpg", admin);
+		User user1 = new User("Cris23", psw, "Creselda", "Canete", LocalDate.parse("1994-04-23"), profilePicBaseUrl + "chris.jpg", therapist);
+		User user2 = new User("Lodilyn", psw, "Lodilyn", "Canete", LocalDate.parse("1992-01-01"), profilePicBaseUrl + "lodilyn.jpg" ,therapist);
+		User user3 = new User("Ale", psw, "Alessandro", "Villani", LocalDate.parse("1989-04-23"), profilePicBaseUrl + "ale.jpeg");
+		User user4 = new User("User1", psw, "User", "1", LocalDate.parse("1999-01-04"), profilePicBaseUrl + "user.jpg");
+		User user5 = new User("User2", psw, "User", "2", LocalDate.parse("1999-01-04"), profilePicBaseUrl + "user.jpg");
+		User user6 = new User("User3", psw, "User", "3", LocalDate.parse("1999-01-04"), profilePicBaseUrl + "user.jpg");
+		User user7 = new User("Arnie", psw, "Arnie", "Sedano", LocalDate.parse("1992-01-01"),profilePicBaseUrl + "arnie.jpg", therapist);
+		User user8 = new User("Ella", psw, "Ella", "Doria", LocalDate.parse("1992-01-01"),profilePicBaseUrl + "ella.jpg", therapist);
+		User user9 = new User("Coleen", psw, "Coleen", "Morales", LocalDate.parse("1992-01-01"),profilePicBaseUrl + "coleen.jpg", therapist);
 		
 		userService.save(userAdmin);
 		userService.save(user1);
@@ -115,12 +115,12 @@ public class BlissfulBackendApplication implements CommandLineRunner{
 		reviewService.save(r3);
 		reviewService.save(r4);
 		
-		Product p1 = new Product("Product 1", lorem, genericProductImg, 200, 10);
-		Product p2 = new Product("Product 2", lorem2, genericProductImg, 300, 6);
-		Product p3 = new Product("Product 3", lorem2, genericProductImg, 450, 3);
-		Product p4 = new Product("Product 4", lorem, genericProductImg, 150, 0);
-		Product p5 = new Product("Product 5", lorem2, genericProductImg, 600, 8);
-		Product p6 = new Product("Product 6", lorem, genericProductImg, 400, 20);
+		Product p1 = new Product("Product 1", lorem, productPicBaseUrl + "product.jpg", 200, 10);
+		Product p2 = new Product("Product 2", lorem2, productPicBaseUrl + "product.jpg", 300, 6);
+		Product p3 = new Product("Product 3", lorem2, productPicBaseUrl + "product.jpg", 450, 3);
+		Product p4 = new Product("Product 4", lorem, productPicBaseUrl + "product.jpg", 150, 0);
+		Product p5 = new Product("Product 5", lorem2, productPicBaseUrl + "product.jpg", 600, 8);
+		Product p6 = new Product("Product 6", lorem, productPicBaseUrl + "product.jpg", 400, 20);
 		
 		productService.save(p1);
 		productService.save(p2);

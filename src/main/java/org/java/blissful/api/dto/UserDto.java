@@ -14,8 +14,6 @@ public class UserDto {
 	
 	private LocalDate dateOfBirth;
 	
-	private String profilePic;
-	
 	public UserDto() {}
 	
 	public UserDto(String username, String Password) {
@@ -25,13 +23,12 @@ public class UserDto {
 		
 	}
 	
-	public UserDto(String username, String password, String firstName, String lastName, String dateOfBirth, String profilePic) {
+	public UserDto(String username, String password, String firstName, String lastName, String dateOfBirth) {
 		
 		this(username, password);
 		setFirstName(firstName);
 		setLastName(lastName);
 		setDateOfBirth(dateOfBirth);
-		setProfilePic(profilePic);
 		
 	}
 
@@ -75,13 +72,6 @@ public class UserDto {
 		this.dateOfBirth = LocalDate.parse(dateOfBirth);
 	}
 
-	public String getProfilePic() {
-		return profilePic;
-	}
-
-	public void setProfilePic(String profilePic) {
-		this.profilePic = profilePic;
-	}
 	
 	
 	
