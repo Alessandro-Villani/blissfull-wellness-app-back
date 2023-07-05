@@ -26,6 +26,12 @@ public class TherapistService {
 		
 	}
 	
+	public Optional<Therapist> findByUserId(long id){
+		
+		return therapistRepo.findByUserId(id);
+		
+	}
+	
 	public Therapist save(Therapist therapist) {
 		
 		return therapistRepo.save(therapist);

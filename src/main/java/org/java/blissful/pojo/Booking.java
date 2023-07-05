@@ -41,6 +41,12 @@ public class Booking {
 	@NotNull
 	private double price;
 	
+	private boolean accepted;
+	
+	private boolean rejected;
+	
+	private boolean completed;
+	
 	@NotNull
 	@ManyToOne(cascade = CascadeType.DETACH)
 	@JsonManagedReference
@@ -66,6 +72,9 @@ public class Booking {
 		setTotalHours(totalHour);
 		setHomeService(homeService);
 		setPrice(price);
+		setAccepted(false);
+		setRejected(false);
+		setCompleted(false);
 		setUser(user);
 		setTherapist(therapist);
 		setMassage(massage);
@@ -75,6 +84,9 @@ public class Booking {
 	public Booking(LocalDate date, int startHour, int endHour, int totalHour, boolean homeService, double price, User user, Therapist therapist, Massage massage, String address) {
 		
 		this(date, startHour, endHour, totalHour, homeService, price, user, therapist, massage);
+		setAccepted(false);
+		setRejected(false);
+		setCompleted(false);
 		setAddress(address);
 		
 	}
@@ -141,6 +153,30 @@ public class Booking {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public boolean isAccepted() {
+		return accepted;
+	}
+
+	public void setAccepted(boolean accepted) {
+		this.accepted = accepted;
+	}
+
+	public boolean isRejected() {
+		return rejected;
+	}
+
+	public void setRejected(boolean rejected) {
+		this.rejected = rejected;
+	}
+
+	public boolean isCompleted() {
+		return completed;
+	}
+
+	public void setCompleted(boolean completed) {
+		this.completed = completed;
 	}
 
 	public User getUser() {

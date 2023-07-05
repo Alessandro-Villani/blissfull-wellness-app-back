@@ -53,6 +53,23 @@ public class TherapistController {
 		
 	}
 	
+	@GetMapping("therapists/user/{id}")
+	public ResponseEntity<Therapist> getTherapistByUserId(@PathVariable long id){
+		
+		Optional<Therapist> optTherapist = therapistService.findByUserId(id);
+		
+		if(optTherapist.isEmpty()) {
+			
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}
+		
+		Therapist therapist = optTherapist.get();
+		
+		return new ResponseEntity<>(therapist, HttpStatus.OK);
+		
+	}
+	
 	@PostMapping("therapists/store")
 	public ResponseEntity<Therapist> storeTherapist(@RequestBody TherapistDto therapistDto){
 		
