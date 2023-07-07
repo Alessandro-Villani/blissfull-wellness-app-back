@@ -14,6 +14,10 @@ public class BookingDto {
 	
 	private String address;
 	
+	private double latitude;
+	
+	private double longitude;
+	
 	private double price;
 	
 	private long userId;
@@ -38,10 +42,12 @@ public class BookingDto {
 		
 	}
 	
-	public BookingDto(String date, int startHour, int endHour, int totalHours, boolean homeService, double price, long userId, long therapistId, long massageId, String address) {
+	public BookingDto(String date, int startHour, int endHour, int totalHours, boolean homeService, double price, long userId, long therapistId, long massageId, String address, double latitude, double longitude) {
 		
 		this(date, startHour, endHour, totalHours, homeService, price, userId, therapistId, massageId);
 		setAddress(address);
+		setLatitude(latitude);
+		setLongitude(longitude);
 		
 	}
 
@@ -91,6 +97,22 @@ public class BookingDto {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
 	}
 
 	public double getPrice() {

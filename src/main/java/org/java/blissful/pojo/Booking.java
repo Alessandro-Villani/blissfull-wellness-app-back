@@ -8,6 +8,7 @@ import org.java.blissful.auth.pojo.User;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,12 +39,19 @@ public class Booking {
 	
 	private String address;
 	
+	private double latitude;
+	
+	private double longitude;
+	
 	@NotNull
 	private double price;
 	
 	private boolean accepted;
 	
 	private boolean rejected;
+	
+	@Column(columnDefinition = "text")
+	private String rejectionReason;
 	
 	private boolean completed;
 	
@@ -81,13 +89,15 @@ public class Booking {
 		
 	}
 	
-	public Booking(LocalDate date, int startHour, int endHour, int totalHour, boolean homeService, double price, User user, Therapist therapist, Massage massage, String address) {
+	public Booking(LocalDate date, int startHour, int endHour, int totalHour, boolean homeService, double price, User user, Therapist therapist, Massage massage, String address, double latitude, double longitude) {
 		
 		this(date, startHour, endHour, totalHour, homeService, price, user, therapist, massage);
 		setAccepted(false);
 		setRejected(false);
 		setCompleted(false);
 		setAddress(address);
+		setLatitude(latitude);
+		setLongitude(longitude);
 		
 	}
 
@@ -147,6 +157,22 @@ public class Booking {
 		this.address = address;
 	}
 
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+
 	public double getPrice() {
 		return price;
 	}
@@ -169,6 +195,14 @@ public class Booking {
 
 	public void setRejected(boolean rejected) {
 		this.rejected = rejected;
+	}
+
+	public String getRejectionReason() {
+		return rejectionReason;
+	}
+
+	public void setRejectionReason(String rejectionReason) {
+		this.rejectionReason = rejectionReason;
 	}
 
 	public boolean isCompleted() {

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.java.blissful.api.dto.BookingDto;
+import org.java.blissful.api.dto.RejectionReasonDto;
 import org.java.blissful.auth.pojo.Therapist;
 import org.java.blissful.auth.pojo.User;
 import org.java.blissful.auth.services.TherapistService;
@@ -17,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -92,7 +94,7 @@ public class BookingController {
 		Massage massage = massageService.findById(bookingDto.getMassageId()).get();
 		
 		Booking booking = bookingDto.isHomeService() ?
-				new Booking(LocalDate.parse(bookingDto.getDate()), bookingDto.getStartHour(), bookingDto.getEndHour(), bookingDto.getTotalHours(), bookingDto.isHomeService(), bookingDto.getPrice(), user, therapist, massage, bookingDto.getAddress())
+				new Booking(LocalDate.parse(bookingDto.getDate()), bookingDto.getStartHour(), bookingDto.getEndHour(), bookingDto.getTotalHours(), bookingDto.isHomeService(), bookingDto.getPrice(), user, therapist, massage, bookingDto.getAddress(), bookingDto.getLatitude(), bookingDto.getLongitude())
 				:
 				new Booking(LocalDate.parse(bookingDto.getDate()), bookingDto.getStartHour(), bookingDto.getEndHour(), bookingDto.getTotalHours(), bookingDto.isHomeService(), bookingDto.getPrice(), user, therapist, massage);
 		
@@ -100,5 +102,46 @@ public class BookingController {
 		
 		return new ResponseEntity<>(booking, HttpStatus.OK);
 	}
+	
+	@PatchMapping("bookings/{id}/accept")
+	public ResponseEntity<Booking> acceptBooking(@PathVariable long id){
+		
+		Booking booking = bookingService.findById(id).get();
+		
+		booking.setAccepted(true);
+		
+		bookingService.save(booking);
+		
+		return new ResponseEntity<>(booking, HttpStatus.OK);
+		
+	}
+	
+	@PatchMapping("bookings/{id}/complete")
+	public ResponseEntity<Booking> completeBooking(@PathVariable long id){
+		
+		Booking booking = bookingService.findById(id).get();
+		
+		booking.setCompleted(true);
+		
+		bookingService.save(booking);
+		
+		return new ResponseEntity<>(booking, HttpStatus.OK);
+		
+	}
+	
+	@PatchMapping("bookings/{id}/reject")
+	public ResponseEntity<Booking> completeBooking(@PathVariable long id, @RequestBody RejectionReasonDto rejectionReasonDto){
+		
+		Booking booking = bookingService.findById(id).get();
+		
+		booking.setRejected(true);
+		booking.setRejectionReason(rejectionReasonDto.getRejectionReason());
+		
+		bookingService.save(booking);
+		
+		return new ResponseEntity<>(booking, HttpStatus.OK);
+		
+	}
+	
 
 }
