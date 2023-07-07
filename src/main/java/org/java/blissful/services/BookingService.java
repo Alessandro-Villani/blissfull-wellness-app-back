@@ -16,25 +16,25 @@ public class BookingService {
 	
 	public List<Booking> findAll(){
 		
-		return bookingRepo.findAll();
+		return bookingRepo.findAllByOrderByDate();
 		
 	}
 	
 	public List<Booking> findByUserId(long id){
 		
-		return bookingRepo.findByUserId(id);
+		return bookingRepo.findByUserIdOrderByDate(id);
 		
 	}
 	
 	public List<Booking> findByTherapistId(long id){
 		
-		return bookingRepo.findByTherapistId(id);
+		return bookingRepo.findByTherapistIdOrderByDate(id);
 		
 	}
 	
 	public List<Booking> findByMassageId(long id){
 		
-		return bookingRepo.findByMassageId(id);
+		return bookingRepo.findByMassageIdOrderByDate(id);
 	}
 	
 	public Optional<Booking> findById(long id){
