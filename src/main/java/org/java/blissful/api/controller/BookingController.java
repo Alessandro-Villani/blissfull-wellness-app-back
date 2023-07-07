@@ -143,5 +143,19 @@ public class BookingController {
 		
 	}
 	
+	@PatchMapping("bookings/{id}/reviewed")
+	public ResponseEntity<Booking> reviewedBooking(@PathVariable long id){
+		
+		Booking booking = bookingService.findById(id).get();
+		
+		booking.setReviewed(true);
+		
+		bookingService.save(booking);
+		
+		return new ResponseEntity<>(booking, HttpStatus.OK);
+		
+	}
+	
+	
 
 }

@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import org.java.blissful.auth.pojo.Therapist;
 import org.java.blissful.auth.pojo.User;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -14,6 +16,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -55,6 +58,8 @@ public class Booking {
 	
 	private boolean completed;
 	
+	private boolean reviewed;
+	
 	@NotNull
 	@ManyToOne(cascade = CascadeType.DETACH)
 	@JsonManagedReference
@@ -83,6 +88,7 @@ public class Booking {
 		setAccepted(false);
 		setRejected(false);
 		setCompleted(false);
+		setReviewed(false);
 		setUser(user);
 		setTherapist(therapist);
 		setMassage(massage);
@@ -95,6 +101,7 @@ public class Booking {
 		setAccepted(false);
 		setRejected(false);
 		setCompleted(false);
+		setReviewed(false);
 		setAddress(address);
 		setLatitude(latitude);
 		setLongitude(longitude);
@@ -211,6 +218,14 @@ public class Booking {
 
 	public void setCompleted(boolean completed) {
 		this.completed = completed;
+	}
+
+	public boolean isReviewed() {
+		return reviewed;
+	}
+
+	public void setReviewed(boolean reviewed) {
+		this.reviewed = reviewed;
 	}
 
 	public User getUser() {

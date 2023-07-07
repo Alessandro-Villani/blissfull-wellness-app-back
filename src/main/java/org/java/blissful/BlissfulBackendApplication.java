@@ -105,6 +105,7 @@ public class BlissfulBackendApplication implements CommandLineRunner{
 		therapistService.save(t4);
 		therapistService.save(t5);
 		
+		/*
 		Review r1 = new Review(5, lorem2, t1, user3);
 		Review r2 = new Review(3, lorem2, t1, user5);
 		Review r3 = new Review(4, lorem2, t1, user4);
@@ -114,6 +115,7 @@ public class BlissfulBackendApplication implements CommandLineRunner{
 		reviewService.save(r2);
 		reviewService.save(r3);
 		reviewService.save(r4);
+		*/
 		
 		Product p1 = new Product("Product 1", lorem, productPicBaseUrl + "product.jpg", 200, 10);
 		Product p2 = new Product("Product 2", lorem2, productPicBaseUrl + "product.jpg", 300, 6);

@@ -43,14 +43,23 @@ public class Review {
 	@JsonManagedReference
 	private User author;
 	
+	private String massageName;
+	
+	private int massageDuration;
+	
+	private String massageDate;
+	
 	public Review() {}
 	
-	public Review(int grade, String review, Therapist therapist, User author) {
+	public Review(int grade, String review, Therapist therapist, User author, String massageName, int massageDuration, String massageDate) {
 		
 		setGrade(grade);
 		setReview(review);
 		setTherapist(therapist);
 		setAuthor(author);
+		setMassageName(massageName);
+		setMassageDuration(massageDuration);
+		setMassageDate(massageDate);
 		
 	}
 
@@ -92,6 +101,30 @@ public class Review {
 
 	public void setAuthor(User author) {
 		this.author = author;
+	}
+
+	public String getMassageName() {
+		return massageName;
+	}
+
+	public void setMassageName(String massageName) {
+		this.massageName = massageName;
+	}
+
+	public int getMassageDuration() {
+		return massageDuration;
+	}
+
+	public void setMassageDuration(int massageDuration) {
+		this.massageDuration = massageDuration;
+	}
+
+	public String getMassageDate() {
+		return massageDate;
+	}
+
+	public void setMassageDate(String massageDate) {
+		this.massageDate = massageDate;
 	}
 
 	@Override

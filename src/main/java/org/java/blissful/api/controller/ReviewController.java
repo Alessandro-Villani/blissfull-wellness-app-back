@@ -6,6 +6,7 @@ import org.java.blissful.auth.pojo.User;
 import org.java.blissful.auth.services.TherapistService;
 import org.java.blissful.auth.services.UserService;
 import org.java.blissful.pojo.Review;
+import org.java.blissful.services.BookingService;
 import org.java.blissful.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,13 +31,16 @@ public class ReviewController {
 	@Autowired
 	TherapistService therapistService;
 	
+	@Autowired
+	BookingService bookingService;
+	
 	@PostMapping("reviews/store")
 	public ResponseEntity<Review> storeReview(@RequestBody ReviewDto reviewDto){
 		
 		Therapist therapist = therapistService.findById(reviewDto.getTherapist()).get();
 		User author = userService.findById(reviewDto.getAuthor()).get();
 		
-		Review review = new Review(reviewDto.getGrade(), reviewDto.getReview(), therapist, author);
+		Review review = new Review(reviewDto.getGrade(), reviewDto.getReview(), therapist, author, reviewDto.getMassageName(), reviewDto.getDuration(), reviewDto.getDate());
 		
 		reviewService.save(review);
 		
