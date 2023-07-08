@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.java.blissful.pojo.Booking;
+import org.java.blissful.pojo.Chat;
 import org.java.blissful.pojo.PurchaseOrder;
 import org.java.blissful.pojo.Review;
 import org.springframework.security.core.GrantedAuthority;
@@ -78,6 +79,10 @@ public class User implements UserDetails{
 	@JsonBackReference
 	private List<Booking> bookings;
 	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+	@JsonBackReference
+	private List<Chat> chats;
+	
 	public User() {}
 	
 	public User(String username, String password, String firstName, String lastName, LocalDate dateOfBirth, String profilePic) {
@@ -123,8 +128,6 @@ public class User implements UserDetails{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
 
 	public String getFirstName() {
 		return firstName;
@@ -218,6 +221,14 @@ public class User implements UserDetails{
 
 	public void setBookings(List<Booking> bookings) {
 		this.bookings = bookings;
+	}
+
+	public List<Chat> getChats() {
+		return chats;
+	}
+
+	public void setChats(List<Chat> chats) {
+		this.chats = chats;
 	}
 
 	@Override

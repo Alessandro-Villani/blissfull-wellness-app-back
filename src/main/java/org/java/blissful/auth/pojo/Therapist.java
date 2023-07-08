@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.java.blissful.pojo.Booking;
+import org.java.blissful.pojo.Chat;
 import org.java.blissful.pojo.Massage;
 import org.java.blissful.pojo.Review;
 
@@ -55,6 +56,10 @@ public class Therapist {
 	@OneToMany(mappedBy = "therapist", cascade = CascadeType.REMOVE)
 	@JsonBackReference
 	private List<Booking> bookings;
+	
+	@OneToMany(mappedBy = "therapist", cascade = CascadeType.REMOVE)
+	@JsonBackReference
+	private List<Chat> chats;
 	
 	public Therapist() {}
 	
@@ -160,6 +165,14 @@ public class Therapist {
 
 	public void setBookings(List<Booking> bookings) {
 		this.bookings = bookings;
+	}
+
+	public List<Chat> getChats() {
+		return chats;
+	}
+
+	public void setChats(List<Chat> chats) {
+		this.chats = chats;
 	}
 
 	public int getReviewAverage() {
