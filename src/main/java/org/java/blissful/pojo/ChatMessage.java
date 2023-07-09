@@ -41,6 +41,7 @@ public class ChatMessage {
 		setSender(sender);
 		setMessage(message);
 		setChat(chat);
+		setSeen(false);
 		
 	}
 

@@ -26,6 +26,12 @@ public class ChatService {
 		
 	}
 	
+	public Optional<Chat> findById(long id){
+		
+		return chatRepo.findById(id);
+		
+	}
+	
 	public Chat save(Chat chat){
 		
 		return chatRepo.save(chat);

@@ -1,6 +1,7 @@
 package org.java.blissful.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.java.blissful.pojo.ChatMessage;
 import org.java.blissful.repo.ChatMessageRepo;
@@ -16,6 +17,12 @@ public class ChatMessageService {
 	public List<ChatMessage> findByChatId(long id){
 		
 		return chatMessageRepo.findByChatId(id);
+		
+	}
+	
+	public Optional<ChatMessage> findById(long id){
+		
+		return chatMessageRepo.findById(id);
 		
 	}
 	
