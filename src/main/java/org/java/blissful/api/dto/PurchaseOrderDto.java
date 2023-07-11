@@ -12,21 +12,33 @@ public class PurchaseOrderDto {
 	
 	private String address;
 	
+	private double latitude;
+	
+	private double longitude;
+	
 	private int quantity;
 	
 	public PurchaseOrderDto() {}
 	
-	public PurchaseOrderDto(long productId, long userId, boolean delivery, int quantity, String addressOrDate) {
+	public PurchaseOrderDto(long productId, long userId, boolean delivery, int quantity, String dateOfPickup) {
 		
 		setProductId(productId);
 		setUserId(userId);
 		setDelivery(delivery);
 		setQuantity(quantity);
+		setDateOfPickup(dateOfPickup);
 		
-		if(delivery) {
-			setAddress(addressOrDate);
-		}
-		else setDateOfPickup(addressOrDate);
+	}
+	
+	public PurchaseOrderDto(long productId, long userId, boolean delivery, int quantity, String address, double latitude, double longitude) {
+		
+		setProductId(productId);
+		setUserId(userId);
+		setDelivery(delivery);
+		setQuantity(quantity);
+		setAddress(address);
+		setLatitude(latitude);
+		setLongitude(longitude);
 		
 	}
 	
@@ -69,6 +81,22 @@ public class PurchaseOrderDto {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
 	}
 
 	public int getQuantity() {

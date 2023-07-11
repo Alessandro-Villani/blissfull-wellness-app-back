@@ -83,6 +83,10 @@ public class User implements UserDetails{
 	@JsonBackReference
 	private List<Chat> chats;
 	
+	private int couponQuantity;
+	
+	private int usedCoupons;
+	
 	public User() {}
 	
 	public User(String username, String password, String firstName, String lastName, LocalDate dateOfBirth, String profilePic) {
@@ -229,6 +233,22 @@ public class User implements UserDetails{
 
 	public void setChats(List<Chat> chats) {
 		this.chats = chats;
+	}
+
+	public int getCouponQuantity() {
+		return couponQuantity;
+	}
+
+	public void setCouponQuantity(int couponQuantity) {
+		this.couponQuantity = couponQuantity;
+	}
+
+	public int getUsedCoupons() {
+		return usedCoupons;
+	}
+
+	public void setUsedCoupons(int usedCoupons) {
+		this.usedCoupons = usedCoupons;
 	}
 
 	@Override

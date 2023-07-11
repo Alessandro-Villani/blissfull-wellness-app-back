@@ -37,6 +37,10 @@ public class PurchaseOrder {
 	
 	private String address;
 	
+	private double latitude;
+	
+	private double longitude;
+	
 	private int quantity;
 	
 	private boolean accepted;
@@ -51,7 +55,7 @@ public class PurchaseOrder {
 	
 	public PurchaseOrder() {}
 
-	public PurchaseOrder(Product product, User user, boolean delivery, int quantity, String address) {
+	public PurchaseOrder(Product product, User user, boolean delivery, int quantity, String address, double latitude, double longitude) {
 		
 		setProduct(product);
 		setUser(user);
@@ -63,6 +67,8 @@ public class PurchaseOrder {
 		setDelivered(false);
 		setCanceled(false);
 		setAddress(address);
+		setLatitude(latitude);
+		setLongitude(longitude);
 		
 	}
 	
@@ -128,6 +134,22 @@ public class PurchaseOrder {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
 	}
 
 	public int getQuantity() {

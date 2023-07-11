@@ -26,9 +26,11 @@ public class BookingDto {
 	
 	private long massageId;
 	
+	private int couponsApplied;
+	
 	public BookingDto() {}
 	
-	public BookingDto(String date, int startHour, int endHour, int totalHours, boolean homeService, double price, long userId, long therapistId, long massageId) {
+	public BookingDto(String date, int startHour, int endHour, int totalHours, boolean homeService, double price, long userId, long therapistId, long massageId, int couponsApplied) {
 		
 		setDate(date);
 		setStartHour(startHour);
@@ -39,12 +41,13 @@ public class BookingDto {
 		setUserId(userId);
 		setTherapistId(therapistId);
 		setMassageId(massageId);
+		setCouponsApplied(couponsApplied);
 		
 	}
 	
-	public BookingDto(String date, int startHour, int endHour, int totalHours, boolean homeService, double price, long userId, long therapistId, long massageId, String address, double latitude, double longitude) {
+	public BookingDto(String date, int startHour, int endHour, int totalHours, boolean homeService, double price, long userId, long therapistId, long massageId, int couponsApplied, String address, double latitude, double longitude) {
 		
-		this(date, startHour, endHour, totalHours, homeService, price, userId, therapistId, massageId);
+		this(date, startHour, endHour, totalHours, homeService, price, userId, therapistId, massageId, couponsApplied);
 		setAddress(address);
 		setLatitude(latitude);
 		setLongitude(longitude);
@@ -146,7 +149,14 @@ public class BookingDto {
 	public void setMassageId(long massageId) {
 		this.massageId = massageId;
 	}
-	
+
+	public int getCouponsApplied() {
+		return couponsApplied;
+	}
+
+	public void setCouponsApplied(int couponsApplied) {
+		this.couponsApplied = couponsApplied;
+	}
 	
 
 }

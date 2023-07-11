@@ -75,9 +75,11 @@ public class Booking {
 	@JsonManagedReference
 	private Massage massage;
 	
+	private int couponsApplied;
+	
 	public Booking() {}
 	
-	public Booking(LocalDate date, int startHour, int endHour, int totalHour, boolean homeService, double price, User user, Therapist therapist, Massage massage) {
+	public Booking(LocalDate date, int startHour, int endHour, int totalHour, boolean homeService, double price, User user, Therapist therapist, Massage massage, int couponsApplied) {
 		
 		setDate(date);
 		setStartHour(startHour);
@@ -92,12 +94,13 @@ public class Booking {
 		setUser(user);
 		setTherapist(therapist);
 		setMassage(massage);
+		setCouponsApplied(couponsApplied);
 		
 	}
 	
-	public Booking(LocalDate date, int startHour, int endHour, int totalHour, boolean homeService, double price, User user, Therapist therapist, Massage massage, String address, double latitude, double longitude) {
+	public Booking(LocalDate date, int startHour, int endHour, int totalHour, boolean homeService, double price, User user, Therapist therapist, Massage massage, int couponsApplied, String address, double latitude, double longitude) {
 		
-		this(date, startHour, endHour, totalHour, homeService, price, user, therapist, massage);
+		this(date, startHour, endHour, totalHour, homeService, price, user, therapist, massage, couponsApplied);
 		setAccepted(false);
 		setRejected(false);
 		setCompleted(false);
@@ -250,6 +253,14 @@ public class Booking {
 
 	public void setMassage(Massage massage) {
 		this.massage = massage;
+	}
+
+	public int getCouponsApplied() {
+		return couponsApplied;
+	}
+
+	public void setCouponsApplied(int couponsApplied) {
+		this.couponsApplied = couponsApplied;
 	}
 
 	

@@ -94,11 +94,20 @@ public class BookingController {
 		Massage massage = massageService.findById(bookingDto.getMassageId()).get();
 		
 		Booking booking = bookingDto.isHomeService() ?
-				new Booking(LocalDate.parse(bookingDto.getDate()), bookingDto.getStartHour(), bookingDto.getEndHour(), bookingDto.getTotalHours(), bookingDto.isHomeService(), bookingDto.getPrice(), user, therapist, massage, bookingDto.getAddress(), bookingDto.getLatitude(), bookingDto.getLongitude())
+				new Booking(LocalDate.parse(bookingDto.getDate()), bookingDto.getStartHour(), bookingDto.getEndHour(), bookingDto.getTotalHours(), bookingDto.isHomeService(), bookingDto.getPrice(), user, therapist, massage, bookingDto.getCouponsApplied(), bookingDto.getAddress(), bookingDto.getLatitude(), bookingDto.getLongitude())
 				:
-				new Booking(LocalDate.parse(bookingDto.getDate()), bookingDto.getStartHour(), bookingDto.getEndHour(), bookingDto.getTotalHours(), bookingDto.isHomeService(), bookingDto.getPrice(), user, therapist, massage);
+				new Booking(LocalDate.parse(bookingDto.getDate()), bookingDto.getStartHour(), bookingDto.getEndHour(), bookingDto.getTotalHours(), bookingDto.isHomeService(), bookingDto.getPrice(), user, therapist, massage, bookingDto.getCouponsApplied());
 		
 		bookingService.save(booking);
+		
+		if(bookingDto.getCouponsApplied() > 0) {
+			
+			user.setCouponQuantity(user.getCouponQuantity() - bookingDto.getCouponsApplied());
+			user.setUsedCoupons(user.getUsedCoupons() + bookingDto.getCouponsApplied());
+			
+			userService.save(user);
+			
+		}
 		
 		return new ResponseEntity<>(booking, HttpStatus.OK);
 	}
@@ -125,6 +134,44 @@ public class BookingController {
 		
 		bookingService.save(booking);
 		
+		User user = booking.getUser();
+		
+		List<Booking> userCompletedBookings = user.getBookings().stream().filter(b -> b.isCompleted()).toList();
+		
+		List<Integer> completedBookingHours = userCompletedBookings.stream().map(b -> b.getTotalHours()).toList();
+		
+		int userTotalMassageHours = 0;
+		
+		for (Integer hours : completedBookingHours) {
+			
+			userTotalMassageHours += hours;
+			
+		}
+		
+		userTotalMassageHours -= user.getUsedCoupons();
+		
+		int couponToAdd = 0;
+		
+		if(userTotalMassageHours >= 10) {
+			
+			int existentCouponsHours = user.getCouponQuantity() * 10;
+			
+			int usedCouponsHours = user.getUsedCoupons() * 10;
+			
+			System.out.println(userTotalMassageHours);
+			System.out.println(existentCouponsHours);
+			System.out.println(usedCouponsHours);
+			
+			couponToAdd = (userTotalMassageHours - existentCouponsHours - usedCouponsHours) / 10; 
+			
+		}
+		
+		System.out.println(couponToAdd);
+		
+		user.setCouponQuantity(user.getCouponQuantity() + couponToAdd);
+		
+		userService.save(user);
+		
 		return new ResponseEntity<>(booking, HttpStatus.OK);
 		
 	}
@@ -138,6 +185,15 @@ public class BookingController {
 		booking.setRejectionReason(rejectionReasonDto.getRejectionReason());
 		
 		bookingService.save(booking);
+		
+		if(booking.getCouponsApplied() > 0) {
+			
+			User user = booking.getUser();
+			
+			user.setCouponQuantity(user.getCouponQuantity() + booking.getCouponsApplied());
+			user.setUsedCoupons(user.getUsedCoupons() - booking.getCouponsApplied());
+			
+		}
 		
 		return new ResponseEntity<>(booking, HttpStatus.OK);
 		

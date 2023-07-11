@@ -79,7 +79,7 @@ public class PurchaseOrderController {
 		User user = userService.findById(purchaseOrderDto.getUserId()).get();
 		
 		PurchaseOrder purchaseOrder = purchaseOrderDto.isDelivery() ?
-				new PurchaseOrder(product, user, purchaseOrderDto.isDelivery(), purchaseOrderDto.getQuantity(), purchaseOrderDto.getAddress()) 
+				new PurchaseOrder(product, user, purchaseOrderDto.isDelivery(), purchaseOrderDto.getQuantity(), purchaseOrderDto.getAddress(), purchaseOrderDto.getLatitude(), purchaseOrderDto.getLongitude()) 
 				:
 				new PurchaseOrder(product, user, purchaseOrderDto.isDelivery(), purchaseOrderDto.getQuantity(), LocalDate.parse(purchaseOrderDto.getDateOfPickup()));
 		
