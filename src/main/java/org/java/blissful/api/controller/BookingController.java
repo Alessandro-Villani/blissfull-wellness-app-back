@@ -1,7 +1,9 @@
 package org.java.blissful.api.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.java.blissful.api.dto.BookingDto;
 import org.java.blissful.api.dto.RejectionReasonDto;
@@ -52,10 +54,35 @@ public class BookingController {
 		
 	}
 	
+	@GetMapping("bookings/inlist/{id}")
+	public ResponseEntity<List<Booking>> findByIdInList(@PathVariable long id){
+		
+		Optional<Booking> optBooking = bookingService.findById(id);
+		
+		if(optBooking.isEmpty()) return new ResponseEntity<List<Booking>>(HttpStatus.NOT_FOUND);
+		
+		Booking booking = optBooking.get();
+		
+		List<Booking> bookingInList = new ArrayList<>();
+		
+		bookingInList.add(booking);
+		
+		return new ResponseEntity<List<Booking>>(bookingInList, HttpStatus.OK);
+		
+		
+	}
+	
 	@GetMapping("bookings/user/{id}")
-	public ResponseEntity<List<Booking>> findByUserId(@PathVariable long id){
+	public ResponseEntity<List<Booking>> findByUserId(@PathVariable long id, @RequestParam(required = false) String date){
+		
+		System.out.println(date);
 		
 		List<Booking> userBookings = bookingService.findByUserId(id);
+		
+		if(date != null && !date.isEmpty()) {
+			LocalDate searchDate = LocalDate.parse(date);
+			userBookings = userBookings.stream().filter(b -> b.getDate().isEqual(searchDate)).toList();
+		}
 		
 		return new ResponseEntity<>(userBookings, HttpStatus.OK);
 		

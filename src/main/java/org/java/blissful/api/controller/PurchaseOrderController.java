@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -37,18 +38,28 @@ public class PurchaseOrderController {
 	private ProductService productService;
 	
 	@GetMapping("/purchaseorders")
-	public ResponseEntity<List<PurchaseOrder>> getAllPurchaseOrders(){
+	public ResponseEntity<List<PurchaseOrder>> getAllPurchaseOrders(@RequestParam(required = false) String date){
 		
 		List<PurchaseOrder> purchaseOrders = purchaseOrderService.findAll();
+		
+		if(date != null && !date.isEmpty()) {
+			LocalDate searchDate = LocalDate.parse(date);
+			purchaseOrders = purchaseOrders.stream().filter(b -> b.getDateOfPickUp().isEqual(searchDate)).toList();
+		}
 		
 		return new ResponseEntity<>(purchaseOrders, HttpStatus.OK);
 		
 	}
 	
 	@GetMapping("/purchaseorders/user/{id}")
-	public ResponseEntity<List<PurchaseOrder>> getUserOrders(@PathVariable long id){
+	public ResponseEntity<List<PurchaseOrder>> getUserOrders(@PathVariable long id, @RequestParam(required = false) String date){
 		
 		List<PurchaseOrder> userPurchaseOrders = purchaseOrderService.findByUserId(id);
+		
+		if(date != null && !date.isEmpty()) {
+			LocalDate searchDate = LocalDate.parse(date);
+			userPurchaseOrders = userPurchaseOrders.stream().filter(b -> b.getDateOfPickUp().isEqual(searchDate)).toList();
+		}
 		
 		return new ResponseEntity<>(userPurchaseOrders, HttpStatus.OK);
 		
