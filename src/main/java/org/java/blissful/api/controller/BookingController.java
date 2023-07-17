@@ -46,9 +46,18 @@ public class BookingController {
 	private MassageService massageService;
 	
 	@GetMapping("bookings")
-	public ResponseEntity<List<Booking>> findAll(){
+	public ResponseEntity<List<Booking>> findAll(@RequestParam(required = false) String date, @RequestParam(required = false) String username){
 		
 		List<Booking> bookings = bookingService.findAll();
+		
+		if(date != null && !date.isEmpty()) {
+			LocalDate searchDate = LocalDate.parse(date);
+			bookings = bookings.stream().filter(b -> b.getDate().isEqual(searchDate)).toList();
+		}
+		
+		if(username != null && !username.isEmpty()) {
+			bookings = bookings.stream().filter(b -> b.getUser().getUsername().toLowerCase().contains(username.toLowerCase())).toList();
+		}
 		
 		return new ResponseEntity<>(bookings, HttpStatus.OK);
 		
@@ -89,13 +98,19 @@ public class BookingController {
 	}
 	
 	@GetMapping("bookings/therapist/{id}")
-	public ResponseEntity<List<Booking>> findByTherapistId(@PathVariable long id, @RequestParam(required = false) String date){
+	public ResponseEntity<List<Booking>> findByTherapistId(@PathVariable long id, @RequestParam(required = false) String date, @RequestParam(required = false) String username){
+		
+		System.out.println(username);
 		
 		List<Booking> therapistBookings = bookingService.findByTherapistId(id);
 		
 		if(date != null && !date.isEmpty()) {
 			LocalDate searchDate = LocalDate.parse(date);
 			therapistBookings = therapistBookings.stream().filter(b -> b.getDate().isEqual(searchDate)).toList();
+		}
+		
+		if(username != null && !username.isEmpty()) {
+			therapistBookings = therapistBookings.stream().filter(b -> b.getUser().getUsername().toLowerCase().contains(username.toLowerCase())).toList();
 		}
 		
 		return new ResponseEntity<>(therapistBookings, HttpStatus.OK);
