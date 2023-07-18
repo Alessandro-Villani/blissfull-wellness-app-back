@@ -2,12 +2,18 @@ package org.java.blissful.api.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
+import org.apache.commons.io.FilenameUtils;
+import org.java.blissful.api.controller.UserController.FileUploadUtil;
 import org.java.blissful.api.dto.MassageDto;
+import org.java.blissful.api.dto.ProductDto;
 import org.java.blissful.auth.pojo.Therapist;
 import org.java.blissful.pojo.Massage;
+import org.java.blissful.pojo.Product;
 import org.java.blissful.services.MassageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,7 +24,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -54,28 +64,41 @@ public class MassageController {
 		
 	}
 	
+	@Value("${upload.dir}")
+    private String uploadDir;
+	
 	@PostMapping("/massages/store")
-	public ResponseEntity<Massage> storeMassage(@RequestBody MassageDto massageDto){
+	public ResponseEntity<Massage> storeMassage(@RequestParam("file") MultipartFile file, @RequestParam("massage") String massageDtoJson){
 		
-		System.out.println(massageDto.getName());
-		System.out.println(massageDto.getDescription());
-		System.out.println(massageDto.getPricePerHour());
-		
-		Massage massage = new Massage(massageDto.getName(), massageDto.getDescription(), massageDto.getPricePerHour(), massageDto.getColor());
-		
-		System.out.println(massage);
-		
-		massageService.save(massage);
-		
-		return new ResponseEntity<>(massage, HttpStatus.OK);
+		try {
+	        ObjectMapper objectMapper = new ObjectMapper();
+	        MassageDto massageDto = objectMapper.readValue(massageDtoJson, MassageDto.class);
+
+	        // Esegui l'upload dell'immagine del profilo
+	        String originalFileName = file.getOriginalFilename();
+	        String fileExtension = FilenameUtils.getExtension(originalFileName);
+	        String fileName = UUID.randomUUID().toString() + "." + fileExtension;
+	        String uploadPath = uploadDir + "/massage_pics/" + fileName;
+	        FileUploadUtil.saveFile(uploadPath, file);
+	        String relativePath = "images/massage_pics/" + fileName;
+	        
+	        Massage massage = new Massage(massageDto.getName(), massageDto.getDescription(), massageDto.getPricePerHour(), relativePath, massageDto.getColor());
+			
+	        massageService.save(massage);
+			
+			return new ResponseEntity<>(massage, HttpStatus.OK);
+			
+			} catch (Exception e) {
+		    	e.printStackTrace();
+		        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		    }
 				
 	}
 	
 	@PutMapping("massages/update/{id}")
-	public ResponseEntity<Massage> updateMassage(@PathVariable long id, @RequestBody MassageDto massageDto){
+	public ResponseEntity<Massage> updateMassage(@PathVariable long id, @RequestParam(value = "file", required = false) MultipartFile file, @RequestParam("massage") String massageDtoJson){
 		
-		System.out.println(massageDto);
-		
+	try {
 		Optional<Massage> optMassage = massageService.findById(id);
 		
 		if(optMassage.isEmpty()) {
@@ -86,14 +109,33 @@ public class MassageController {
 		
 		Massage massage = optMassage.get();
 		
+		ObjectMapper objectMapper = new ObjectMapper();
+        MassageDto massageDto = objectMapper.readValue(massageDtoJson, MassageDto.class);
+		
 		massage.setName(massageDto.getName());
 		massage.setDescription(massageDto.getDescription());
 		massage.setPricePerHour(massageDto.getPricePerHour());
 		massage.setColor(massageDto.getColor());
 		
+		if(file != null) {
+			String originalFileName = file.getOriginalFilename();
+	        String fileExtension = FilenameUtils.getExtension(originalFileName);
+	        String fileName = UUID.randomUUID().toString() + "." + fileExtension;
+	        String uploadPath = uploadDir + "/massage_pics/" + fileName;
+	        FileUploadUtil.saveFile(uploadPath, file);
+	        String relativePath = "images/massage_pics/" + fileName;
+	        
+	        massage.setImageUrl(relativePath);
+		}
+		
 		massageService.save(massage);
 		
 		return new ResponseEntity<>(massage, HttpStatus.OK);
+		
+	} catch (Exception e) {
+    	e.printStackTrace();
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 		
 	}
 	

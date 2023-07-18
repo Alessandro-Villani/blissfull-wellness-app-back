@@ -52,6 +52,7 @@ public class BlissfulBackendApplication implements CommandLineRunner{
 		String lorem2 = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa enim iste earum neque nihil cupiditate eaque quam, sint porro inventore eveniet architecto? Consectetur quaerat odio eveniet cumque? Consequuntur, quos accusamus!";
 		String profilePicBaseUrl = "images/profile_pics/";
 		String productPicBaseUrl = "images/product_pics/";
+		String massagePicBaseUrl = "images/massage_pics/";
 		
 		Role admin = new Role("admin");
 		Role therapist = new Role("therapist");
@@ -83,10 +84,10 @@ public class BlissfulBackendApplication implements CommandLineRunner{
 		userService.save(user8);
 		userService.save(user9);
 		
-		Massage m1 = new Massage("Swedish", lorem, 450, "#FFF490");
-		Massage m2 = new Massage("Shiatsu", lorem2, 450, "#A172A0");
-		Massage m3 = new Massage("Pinoy hilot", lorem, 500, "#5E7EB9");
-		Massage m4 = new Massage("Thai", lorem, 600, "#FFD480");
+		Massage m1 = new Massage("Swedish", lorem, 450, massagePicBaseUrl + "swedish.jpg", "#FFF490");
+		Massage m2 = new Massage("Shiatsu", lorem2, 450, massagePicBaseUrl + "shiatsu.jpg", "#A172A0");
+		Massage m3 = new Massage("Pinoy hilot", lorem, 500, massagePicBaseUrl + "hilot.jpg", "#5E7EB9");
+		Massage m4 = new Massage("Thai", lorem, 600, massagePicBaseUrl + "thai.jpg", "#FFD480");
 		
 		massageService.save(m1);
 		massageService.save(m2);

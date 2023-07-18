@@ -50,26 +50,30 @@ public class Massage {
 	@JsonBackReference
 	private List<Booking> bookings;
 	
+	@Column(columnDefinition = "text")
+	private String imageUrl;
+	
 	public Massage() {}
 	
-	public Massage(String name, String description, double pricePerHour) {
+	public Massage(String name, String description, double pricePerHour, String imageUrl) {
 		
 		setName(name);
 		setDescription(description);
 		setPricePerHour(pricePerHour);
+		setImageUrl(imageUrl);
 		
 	}
 	
-	public Massage(String name, String description, double pricePerHour, String color) {
+	public Massage(String name, String description, double pricePerHour, String imageUrl, String color) {
 		
-		this(name, description, pricePerHour);
+		this(name, description, pricePerHour, imageUrl);
 		setColor(color);
 		
 	}
 	
-	public Massage(String name, String description, double pricePerHour, String color, Therapist...therapists) {
+	public Massage(String name, String description, double pricePerHour, String imageUrl, String color, Therapist...therapists) {
 		
-		this(name, description, pricePerHour, color);
+		this(name, description, pricePerHour, imageUrl, color);
 		setTherapist(therapists);
 		
 	}
@@ -136,6 +140,14 @@ public class Massage {
 
 	public void setBookings(List<Booking> bookings) {
 		this.bookings = bookings;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	@Override
