@@ -6,6 +6,8 @@ import java.util.List;
 import org.java.blissful.auth.pojo.Therapist;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import jakarta.persistence.CascadeType;
@@ -41,7 +43,7 @@ public class Massage {
 	private double pricePerHour;
 	
 	@ManyToMany(mappedBy = "massages", cascade = CascadeType.DETACH)
-	@JsonBackReference
+	@JsonIgnoreProperties("massages")
 	private List<Therapist> therapists;
 	
 	private String color;

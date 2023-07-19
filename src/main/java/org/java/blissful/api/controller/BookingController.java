@@ -68,11 +68,12 @@ public class BookingController {
 		
 		Optional<Booking> optBooking = bookingService.findById(id);
 		
+		List<Booking> bookingInList = new ArrayList<>();
+		
 		if(optBooking.isEmpty()) return new ResponseEntity<List<Booking>>(HttpStatus.NOT_FOUND);
 		
 		Booking booking = optBooking.get();
 		
-		List<Booking> bookingInList = new ArrayList<>();
 		
 		bookingInList.add(booking);
 		

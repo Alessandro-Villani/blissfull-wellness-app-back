@@ -10,12 +10,19 @@ public class MassageDto {
 	
 	private String color;
 	
+	private long[] therapists;
+	
 	public MassageDto() {}
 	public MassageDto(String name, String description, double pricePerHour, String color) {
 		setName(name);
 		setDescription(description);
 		setPricePerHour(pricePerHour);
 		setColor(color);
+	}
+	
+	public MassageDto(String name, String description, double pricePerHour, String color, long[] therapists) {
+		this(name, description, pricePerHour, color);
+		setTherapists(therapists);
 	}
 	
 	public String getName() {
@@ -42,7 +49,11 @@ public class MassageDto {
 	public void setColor(String color) {
 		this.color = color;
 	}
-	
-	
+	public long[] getTherapists() {
+		return therapists;
+	}
+	public void setTherapists(long[] therapists) {
+		this.therapists = therapists;
+	}	
 	
 }

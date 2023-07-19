@@ -1,5 +1,7 @@
 package org.java.blissful.api.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -8,7 +10,9 @@ import org.apache.commons.io.FilenameUtils;
 import org.java.blissful.api.controller.UserController.FileUploadUtil;
 import org.java.blissful.api.dto.MassageDto;
 import org.java.blissful.api.dto.ProductDto;
+import org.java.blissful.api.dto.TherapistDto;
 import org.java.blissful.auth.pojo.Therapist;
+import org.java.blissful.auth.services.TherapistService;
 import org.java.blissful.pojo.Massage;
 import org.java.blissful.pojo.Product;
 import org.java.blissful.services.MassageService;
@@ -37,6 +41,9 @@ public class MassageController {
 	
 	@Autowired
 	private MassageService massageService;
+	
+	@Autowired
+	private TherapistService therapistService;
 	
 	@GetMapping("/massages")
 	public ResponseEntity<List<Massage>> getAllMassage(){
@@ -83,6 +90,24 @@ public class MassageController {
 	        String relativePath = "images/massage_pics/" + fileName;
 	        
 	        Massage massage = new Massage(massageDto.getName(), massageDto.getDescription(), massageDto.getPricePerHour(), relativePath, massageDto.getColor());
+	        
+	        List<Therapist> therapists = new ArrayList<>();
+	        
+	        for(long therapistId : massageDto.getTherapists()) {
+	        	
+	        	Therapist therapist = therapistService.findById(therapistId).get();
+	        	
+	        	therapist.addMassage(massage);
+	        	
+	        	therapistService.save(therapist);
+	        	
+	        	therapists.add(therapist);
+	        	
+	        }
+	        
+	        massage.setTherapists(therapists);
+	        
+	        System.out.println(massage.getTherapists());
 			
 	        massageService.save(massage);
 			
@@ -116,6 +141,42 @@ public class MassageController {
 		massage.setDescription(massageDto.getDescription());
 		massage.setPricePerHour(massageDto.getPricePerHour());
 		massage.setColor(massageDto.getColor());
+		
+		List<Therapist> therapists = new ArrayList<>();
+		
+		List<Long> therapistIds = new ArrayList<>();
+		
+		for(long therapistId : massageDto.getTherapists()) {
+			
+			therapistIds.add(therapistId);
+			
+		}
+		
+		List<Therapist> allTherapists = therapistService.findAll();
+		
+		for(Therapist therapist : allTherapists) {
+			
+			if(therapistIds.contains(therapist.getId()) && !therapist.getMassages().contains(massage)) {
+				
+				therapist.addMassage(massage);
+	        	
+	        	therapistService.save(therapist);
+	        	
+	        	therapists.add(therapist);
+				
+			} else if(!therapistIds.contains(therapist.getId()) && therapist.getMassages().contains(massage)) {
+				
+				therapist.removeMassage(massage);
+				
+				therapistService.save(therapist);
+				
+			}
+			
+		}
+        
+        massage.setTherapists(therapists);
+        
+        System.out.println(massage.getTherapists());
 		
 		if(file != null) {
 			String originalFileName = file.getOriginalFilename();

@@ -1,7 +1,9 @@
 package org.java.blissful.api.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.java.blissful.api.dto.PurchaseOrderDto;
 import org.java.blissful.auth.pojo.User;
@@ -48,6 +50,24 @@ public class PurchaseOrderController {
 		}
 		
 		return new ResponseEntity<>(purchaseOrders, HttpStatus.OK);
+		
+	}
+	
+	@GetMapping("purchaseorders/inlist/{id}")
+	public ResponseEntity<List<PurchaseOrder>> findByIdInList(@PathVariable long id){
+		
+		Optional<PurchaseOrder> optPurchaseOrder = purchaseOrderService.findById(id);
+		
+		List<PurchaseOrder> purchaseOrderInList = new ArrayList<>();
+		
+		if(optPurchaseOrder.isEmpty()) return new ResponseEntity<List<PurchaseOrder>>(HttpStatus.NOT_FOUND);
+		
+		PurchaseOrder purchaseOrder = optPurchaseOrder.get();
+		
+		
+		purchaseOrderInList.add(purchaseOrder);
+		
+		return new ResponseEntity<List<PurchaseOrder>>(purchaseOrderInList, HttpStatus.OK);
 		
 	}
 	
