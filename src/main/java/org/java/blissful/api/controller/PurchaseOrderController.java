@@ -40,13 +40,19 @@ public class PurchaseOrderController {
 	private ProductService productService;
 	
 	@GetMapping("/purchaseorders")
-	public ResponseEntity<List<PurchaseOrder>> getAllPurchaseOrders(@RequestParam(required = false) String date){
+	public ResponseEntity<List<PurchaseOrder>> getAllPurchaseOrders(@RequestParam(required = false) String date, @RequestParam(required = false) String username){
+
+		System.out.println(username);
 		
 		List<PurchaseOrder> purchaseOrders = purchaseOrderService.findAll();
 		
 		if(date != null && !date.isEmpty()) {
 			LocalDate searchDate = LocalDate.parse(date);
-			purchaseOrders = purchaseOrders.stream().filter(b -> b.getDateOfPickUp().isEqual(searchDate)).toList();
+			purchaseOrders = purchaseOrders.stream().filter(p -> p.getDateOfPickUp().isEqual(searchDate)).toList();
+		}
+		
+		if(username != null && !username.isEmpty()) {
+			purchaseOrders = purchaseOrders.stream().filter(p -> p.getUser().getUsername().toLowerCase().contains(username.toLowerCase())).toList();
 		}
 		
 		return new ResponseEntity<>(purchaseOrders, HttpStatus.OK);
@@ -72,13 +78,19 @@ public class PurchaseOrderController {
 	}
 	
 	@GetMapping("/purchaseorders/user/{id}")
-	public ResponseEntity<List<PurchaseOrder>> getUserOrders(@PathVariable long id, @RequestParam(required = false) String date){
+	public ResponseEntity<List<PurchaseOrder>> getUserOrders(@PathVariable long id, @RequestParam(required = false) String date, @RequestParam(required = false) String username){
+		
+		System.out.println(username);
 		
 		List<PurchaseOrder> userPurchaseOrders = purchaseOrderService.findByUserId(id);
 		
 		if(date != null && !date.isEmpty()) {
 			LocalDate searchDate = LocalDate.parse(date);
-			userPurchaseOrders = userPurchaseOrders.stream().filter(b -> b.getDateOfPickUp().isEqual(searchDate)).toList();
+			userPurchaseOrders = userPurchaseOrders.stream().filter(p -> p.getDateOfPickUp().isEqual(searchDate)).toList();
+		}
+		
+		if(username != null && !username.isEmpty()) {
+			userPurchaseOrders = userPurchaseOrders.stream().filter(p -> p.getUser().getUsername().toLowerCase().contains(username.toLowerCase())).toList();
 		}
 		
 		return new ResponseEntity<>(userPurchaseOrders, HttpStatus.OK);

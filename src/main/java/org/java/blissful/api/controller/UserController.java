@@ -20,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -129,6 +130,33 @@ public class UserController {
 	        return new ResponseEntity<>(user, HttpStatus.OK);
 	    } catch (Exception e) {
 	        // Gestione degli errori
+	    	e.printStackTrace();
+	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
+	
+	@PatchMapping("users/{id}/changeprofilepic")
+	public ResponseEntity<User> changeProfilePic(@PathVariable long id, @RequestParam("file") MultipartFile file){
+		
+		try {
+		
+		User user = userService.findById(id).get();
+			
+		String originalFileName = file.getOriginalFilename();
+        String fileExtension = FilenameUtils.getExtension(originalFileName);
+        String fileName = UUID.randomUUID().toString() + "." + fileExtension;
+        String uploadPath = uploadDir + "/profile_pics/" + fileName;
+        FileUploadUtil.saveFile(uploadPath, file);
+        String relativePath = "images/profile_pics/" + fileName;
+        
+        user.setProfilePic(relativePath);
+        
+        userService.save(user);
+        
+        return new ResponseEntity<>(user, HttpStatus.OK);
+        
+		} 
+		catch (Exception e) {
 	    	e.printStackTrace();
 	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
