@@ -6,13 +6,16 @@ import java.util.List;
 import java.util.Optional;
 
 import org.java.blissful.api.dto.TherapistDto;
+import org.java.blissful.api.dto.TherapistWithBookingsHoursDto;
 import org.java.blissful.auth.pojo.Role;
 import org.java.blissful.auth.pojo.Therapist;
 import org.java.blissful.auth.pojo.User;
 import org.java.blissful.auth.services.RoleService;
 import org.java.blissful.auth.services.TherapistService;
 import org.java.blissful.auth.services.UserService;
+import org.java.blissful.pojo.Booking;
 import org.java.blissful.pojo.Massage;
+import org.java.blissful.services.BookingService;
 import org.java.blissful.services.MassageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,12 +47,46 @@ public class TherapistController {
 	@Autowired
 	private MassageService massageService;
 	
+	@Autowired
+	private BookingService bookingService;
+	
 	@GetMapping("/therapists")
 	public ResponseEntity<List<Therapist>> getAllTherapists(){
 		
 		List<Therapist> therapists = therapistService.findAll();
 		
 		return new ResponseEntity<>(therapists, HttpStatus.OK);
+		
+	}
+	
+	@GetMapping("therapists/stats")
+	public ResponseEntity<List<TherapistWithBookingsHoursDto>> getAllTherapistsStats(){
+		
+		List<Therapist> therapists = therapistService.findAll();
+		
+		List<TherapistWithBookingsHoursDto> therapistsWithStats = new ArrayList<>();
+		
+		for(Therapist therapist : therapists) {
+			
+			List<Booking> therapistBookings = bookingService.findByTherapistId(therapist.getId());
+			
+			therapistBookings = therapistBookings.stream().filter(b -> b.isCompleted()).toList();
+			
+			int massageHours = 0;
+			
+			for(Booking booking : therapistBookings) {
+				
+				massageHours += booking.getTotalHours();
+				
+			}
+			
+			TherapistWithBookingsHoursDto therapistStats = new TherapistWithBookingsHoursDto(therapist.getTherapistName(), therapist.getReviewAverage(), massageHours);
+			
+			therapistsWithStats.add(therapistStats);
+			
+		}
+		
+		return new ResponseEntity<>(therapistsWithStats, HttpStatus.OK);
 		
 	}
 	
